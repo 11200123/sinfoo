@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="bd_colegio8"/>
+  <table-filter match-name="ubicaciondocumentos"/>
+  <table-filter match-name="detallepago"/>
+  <table-filter match-name="aula"/>
+  <table-filter match-name="usuario"/>
+  <table-filter match-name="estandarespago"/>
+  <table-filter match-name="transaccion"/>
+  <table-filter match-name="domicilio"/>
+  <table-filter match-name="matricula"/>
+  <table-filter match-name="alumno"/>
+  <table-filter match-name="cronograma"/>
+  <table-filter match-name="padre_de_familia"/>
+</hibernate-reverse-engineering>

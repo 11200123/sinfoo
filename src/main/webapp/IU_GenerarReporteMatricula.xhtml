@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Reporte de Matricula</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+                <p:menubar>
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{generarrepmatri.volverMenu}"/>
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{generarrepmatri.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{generarrepmatri.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{generarrepmatri.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Generar reporte de matricula">
+                   
+                        <p:tab title="Reporte de Matricula" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                             rendered="true"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Seleccione los campos que desee generar reporte:"/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel for="Grado" value="Grado: "/>
+                                            <p:selectOneMenu id="Grado" >
+                                                <f:selectItem itemLabel="1" />
+                                                <f:selectItem itemLabel="2" />
+                                                <f:selectItem itemLabel="3" />
+                                                <f:selectItem itemLabel="4" />
+                                                <f:selectItem itemLabel="5" />
+                                                <f:selectItem itemLabel="6" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="seccion" value="Sección: "/>
+                                            <p:selectOneMenu id="seccion" >
+                                                <f:selectItem itemLabel="A" />
+                                                <f:selectItem itemLabel="B" />
+                                                <f:selectItem itemLabel="C" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="nivel" value="Nivel: "/>
+                                            <p:selectOneMenu id="nivel" >
+                                                <f:selectItem itemLabel="Primaria" />
+                                                <f:selectItem itemLabel="Secundaria" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="estmatri" value="Estado de matricula"/>
+                                            <p:selectOneMenu id="estmatri" >
+                                                <f:selectItem itemLabel="Matriculado" />
+                                                <f:selectItem itemLabel="No Matriculado" />
+                                            </p:selectOneMenu>
+                                           <p:outputLabel for="fechaa" value="Fecha: "/>
+                                            <p:calendar id="fechaa"  showOn="button" />
+                                            <p:outputLabel for="tipoalu" value="Tipo de alumno: "/>
+                                            <p:selectOneMenu id="tipoalu" >
+                                                <f:selectItem itemLabel="Nuevo" />
+                                                <f:selectItem itemLabel="Antiguo" />
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#"
+                                        />
+                                    <p:commandButton  
+                                        value="Generar Reporte" 
+                                        action="#"
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                        </p:tab>
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

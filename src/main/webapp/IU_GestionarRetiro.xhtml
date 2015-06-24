@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestionar Retiro</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+                <p:menubar>
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{gestionaretiro.volverMenu}"/>
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{gestionaretiro.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{gestionaretiro.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{gestionaretiro.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestionar Retiro">
+                    <p:accordionPanel
+                        activeIndex="0,1,2">
+                        <p:tab title="Retirar Alumno">
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        rendered="#{gestionaretiro.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;"
+                                        >
+                                        <p:outputLabel rendered="true" value="Buscar Alumno"/>
+                                        <h:panelGrid columns="3" cellpadding="10">
+                                            <p:outputLabel rendered="true" value="Ingrese nombre o parte del nombre"/>
+                                            <p:inputText id="busquedaAlumno" value="#{gestionaretiro.nombreBuscado}"/>
+                                            <p:commandButton value="Buscar" action="#{gestionaretiro.buscarMatriculas}" update="tablaMatriculados"/>
+                                        </h:panelGrid>
+                                        <br/>
+                                        <p:dataTable
+                                            id="tablaMatriculados"
+                                            var="matricula"
+                                            value="#{gestionaretiro.listaMatriculados}"
+                                            selection="#{gestionaretiro.matriculaSeleccionada}"
+                                            selectionMode="single"
+                                            rowKey="#{matricula.codMatricula}">
+                                            <p:column headerText="Apellido Paterno">
+                                                <h:outputText value="#{matricula.alumno.apePat}" />
+                                            </p:column>
+                                            <p:column headerText="Apellido Materno">
+                                                <h:outputText value="#{matricula.alumno.apeMat}" />
+                                            </p:column>
+                                            <p:column headerText="Primer Nombre">
+                                                <h:outputText value="#{matricula.alumno.primerNom}" />
+                                            </p:column>
+                                            <p:column headerText="Segundo Nombre">
+                                                <h:outputText value="#{matricula.alumno.segundoNom}" />
+                                            </p:column>
+                                            <p:column headerText="Matricula Vigente (*)">
+                                                <h:outputText value="#{matricula.estadoMatricula}" />
+                                            </p:column>
+                                            <p:column headerText="Alumno Activo (*)">
+                                                <h:outputText value="#{matricula.alumno.estadoActivo}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                        <br/><br/>
+                                        <p:outputLabel value="(*) 0 = No, 1 = Sí." />
+                                        <br/>
+                                    </p:panel>
+                                    <p:panel
+                                        rendered="#{gestionaretiro.mostrado[1]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:panel
+                                            header="Información personal">
+                                            <h:panelGrid columns="2" cellpadding="10">
+                                                <p:outputLabel for="apepat1" value="Apellido paterno: "/>
+                                                <p:inputText  id="apepat1" value="#{gestionaretiro.matriculaSeleccionada.alumno.apePat}"  disabled="true"/> 
+                                                <p:outputLabel for="apemat1" value="Apellido materno: "/>
+                                                <p:inputText  id="apemat1" value="#{gestionaretiro.matriculaSeleccionada.alumno.apeMat}" disabled="true"/>
+                                                <p:outputLabel for="primerNom1" value="Primer nombre: "/>
+                                                <p:inputText  id="primerNom1" value="#{gestionaretiro.matriculaSeleccionada.alumno.primerNom}" disabled="true"/>
+                                                <p:outputLabel for="segundoNom1" value="Segundo nombre: "/>
+                                                <p:inputText  id="segundoNom1" value="#{gestionaretiro.matriculaSeleccionada.alumno.segundoNom}" disabled="true"/>
+                                                <p:outputLabel for="fecha_nac1" value="Fecha de nacimiento: "/>
+                                                <p:calendar id="fecha_nac1" value="#{gestionaretiro.matriculaSeleccionada.alumno.fechaNac}" showOn="button" disabled="true"/>
+                                                <p:outputLabel for="pais1" value="Nacionalidad"/>
+                                                <p:selectOneMenu id="pais1" value="#{gestionaretiro.matriculaSeleccionada.alumno.nacionalidad}" disabled="true">
+                                                    <f:selectItem itemLabel="Peru" itemValue="Perú" />
+                                                    <f:selectItem itemLabel="Brasil" itemValue="Brasil" />
+                                                    <f:selectItem itemLabel="Bolivia" itemValue="Bolivia" />
+                                                    <f:selectItem itemLabel="Argentina" itemValue="Argentina" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="dni1" value="Documento de identidad: "/>
+                                                <p:selectOneMenu id="dni1" value="#{gestionaretiro.matriculaSeleccionada.alumno.tipoDoc}" disabled="true">
+                                                    <f:selectItem itemLabel="DNI" itemValue="DNI" />
+                                                    <f:selectItem itemLabel="Libreta electoral" itemValue="Libreta electoral" />
+                                                    <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="nro_doc1" value="Numero de documento: "/>
+                                                <p:inputText  id="nro_doc1" value="#{gestionaretiro.matriculaSeleccionada.alumno.numDoc}" disabled="true"/>
+                                                <p:outputLabel for="sex1" value="Sexo: "/>
+                                                <p:selectOneMenu id="sex1" value="#{gestionaretiro.matriculaSeleccionada.alumno.sexo}" disabled="true">
+                                                    <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                                    <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="telf_fijo1" value="Telefono fijo: "/>
+                                                <p:inputText  id="telf_fijo1" value="#{gestionaretiro.matriculaSeleccionada.alumno.telfFijo}" disabled="true"/>
+                                                <p:outputLabel for="telf_emer1" value="Telefono de emergencia: "/>
+                                                <p:inputText  id="telf_emer1" value="#{gestionaretiro.matriculaSeleccionada.alumno.telfEmerg}" disabled="true"/>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        <br/>
+                                        <p:panel
+                                            header="Padre de Familia asociado">
+                                            <h:panelGrid columns="2" cellpadding="10">
+                                                <p:outputLabel  value="Nombres: "/>
+                                                #{gestionaretiro.matriculaSeleccionada.alumno.padreDeFamilia.apePat}
+                                                #{gestionaretiro.matriculaSeleccionada.alumno.padreDeFamilia.apeMat}
+                                                #{gestionaretiro.matriculaSeleccionada.alumno.padreDeFamilia.nombre1}
+                                                #{gestionaretiro.matriculaSeleccionada.alumno.padreDeFamilia.nombre2}
+                                             </h:panelGrid>
+                                            </p:panel>
+                                        <br/>
+                                            <p:panel
+                                            header="Motivo">
+                                            <h:panelGrid columns="2" cellpadding="10">
+                                                <p:outputLabel  value="Escriba el motivo por favor: "/>
+                                                <p:inputTextarea autoResize="true" value="#{gestionaretiro.matriculaSeleccionada.alumno.motivoRetiro}"/> 
+                                             </h:panelGrid>
+                                            </p:panel>
+                                    </p:panel>
+                                    <p:panel
+                                        rendered="#{gestionaretiro.mostrado[2]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <br/><br/>
+                                        <p:outputLabel rendered="true" value="Seguro que desea retirar al alumno?"/>
+                                        <br/><br/>
+                                        <p:commandButton value="Confirmar" 
+                                        action="#{gestionaretiro.continua2}" type="submit"
+                                        update="@form"/>
+                                        <p:commandButton value="Cancelar proceso" 
+                                        action="#{gestionaretiro.continua}" type="submit"
+                                        update="@form"/>
+                                    </p:panel>
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{gestionaretiro.retrocede}"
+                                        disabled="#{gestionaretiro.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{gestionaretiro.botonContinuar}" 
+                                        action="#{gestionaretiro.continua}"
+                                        disabled="#{gestionaretiro.grabarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                            <p:dialog header="Seleccione" widgetVar="noseleccionado" modal="true" height="100">
+                                <h:outputText value="Seleccione alumno para continuar" />
+                            </p:dialog>   
+                            <p:dialog header="Ingrese dígitos" widgetVar="noingresado" modal="true" height="100">
+                                <h:outputText value="Ingrese al menos una palabra" />
+                            </p:dialog> 
+                            <p:dialog header="Ingrese motivo" widgetVar="ingrese_motivo" modal="true" height="100">
+                                <h:outputText value="Debe ingresar el motivo del retiro." />
+                            </p:dialog> 
+                            <p:dialog header="Éxito" widgetVar="eliminado_exito" modal="true" height="100">
+                                <h:outputText value="Se ha eliminado con éxito lógicamente al alumno." />
+                            </p:dialog> 
+                            <p:dialog header="Elimine primero" widgetVar="debe_eliminar" modal="true" height="100">
+                                <h:outputText value="La matrícula actual del alumno seleccionado debe ser eliminada." />
+                            </p:dialog> 
+                            <p:dialog header="Ya ha sido retirado" widgetVar="ya_retirado" modal="true" height="100">
+                                <h:outputText value="El alumno seleccionado ya ha sido retirado de la institución." />
+                            </p:dialog> 
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

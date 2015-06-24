@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2015 11:04:58 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+  <class catalog="bd_colegio8" name="entidades.PadreDeFamilia" table="padre_de_familia">
+    <id name="usuarioIdUsuario" type="string">
+      <column name="usuario_idUsuario"/>
+      <generator class="foreign">
+        <param name="property">usuario</param>
+      </generator>
+    </id>
+    <one-to-one class="entidades.Usuario" constrained="true" name="usuario"/>
+    <property name="nombre1" type="string">
+      <column length="45" name="nombre1" not-null="true"/>
+    </property>
+    <property name="nombre2" type="string">
+      <column length="45" name="nombre2" not-null="true"/>
+    </property>
+    <property name="apePat" type="string">
+      <column length="45" name="apePat" not-null="true"/>
+    </property>
+    <property name="apeMat" type="string">
+      <column length="45" name="apeMat" not-null="true"/>
+    </property>
+    <property name="numDoc" type="string">
+      <column length="45" name="numDoc" not-null="true"/>
+    </property>
+    <property name="telefono" type="int">
+      <column name="telefono" not-null="true"/>
+    </property>
+    <property name="sexo" type="string">
+      <column length="45" name="sexo" not-null="true"/>
+    </property>
+    <property name="estadoActivo" type="int">
+      <column name="estadoActivo" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="alumnos" table="alumno">
+      <key>
+        <column name="Padre_De_Familia_usuario_idUsuario" not-null="true"/>
+      </key>
+      <one-to-many class="entidades.Alumno"/>
+    </set>
+  </class>
+</hibernate-mapping>

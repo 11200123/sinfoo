@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Registro de Pago</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    <p:menuitem value="Regresar al Menú" action="#{registrarpago.volverMenu}" icon="ui-icon-carat-1-e" />
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{registrarpago.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{registrarpago.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{registrarpago.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Registro de Pagos">
+                    <p:accordionPanel
+                        activeIndex="0,1,2">
+                        <p:tab title="Registrar pagos" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        id="panel0"
+                                        rendered="#{registrarpago.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                            
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Seleccione a un estudiante"/>
+                                        <br/>
+                                        <p:dataTable
+                                                id="tablaMatriculados"
+                                                var="alumno"
+                                                value="#{registrarpago.listaAlumnos}"
+                                                selection="#{registrarpago.alumnoSeleccionado}"
+                                                selectionMode="single"
+                                                rowKey="#{alumno.codigoAlumno}">
+                                                <p:column headerText="Apellido Paterno">
+                                                    <h:outputText value="#{alumno.apePat}" />
+                                                </p:column>
+                                                <p:column headerText="Apellido Materno">
+                                                    <h:outputText value="#{alumno.apeMat}" />
+                                                </p:column>
+                                                <p:column headerText="Primer Nombre">
+                                                    <h:outputText value="#{alumno.primerNom}" />
+                                                </p:column>
+                                                <p:column headerText="Segundo Nombre">
+                                                    <h:outputText value="#{alumno.segundoNom}" />
+                                                </p:column>
+                                        </p:dataTable> 
+                                    </p:panel>
+                                    <p:panel id="panel1"
+                                             rendered="#{registrarpago.mostrado[1]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Alumno: "/>
+                                            #{registrarpago.alumnoSeleccionado.apePat}
+                                            #{registrarpago.alumnoSeleccionado.apeMat}
+                                            #{registrarpago.alumnoSeleccionado.primerNom}
+                                            #{registrarpago.alumnoSeleccionado.segundoNom}
+                                            <br/><br/>
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="> Ingrese el número de operación:"/>   
+                                        <br/>
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="  (Número de 10 dígitos ubicado en la parte superior del voucher de pago)"/>    
+                                        <br/>
+                                        <p:inputText 
+                                            id="txt_NumeroVoucher"
+                                            value="#{registrarpago.numVoucher}" maxlength="10"/>
+                                    </p:panel>
+                                    <p:panel id="panel2"
+                                             rendered="#{registrarpago.mostrado[2]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Se ha verificado con éxito el código del voucher..."/>
+                                        <br/><br/>
+                                        <h:panelGrid columns="2" cellspacing="15px">
+                                            <p:outputLabel for="numTran" value="> Número de transacción validado: " />
+                                            <p:outputLabel id="numTran" value="#{registrarpago.tran.nroTransaccion}" />
+                                            <p:outputLabel for="mPago" value="> Monto de transacción: S/. " />
+                                            <p:outputLabel id="mPago" value="#{registrarpago.montoPension}" />
+                                            <p:outputLabel for="nom" value="> A nombre de: "/>
+                                            <p:outputLabel id="nom" value="#{registrarpago.alumnoSeleccionado.apePat} 
+                                                           #{registrarpago.alumnoSeleccionado.apeMat} 
+                                                           #{registrarpago.alumnoSeleccionado.primerNom} 
+                                                           #{registrarpago.alumnoSeleccionado.segundoNom}"/>
+                                            <p:outputLabel for="mesPago" value="> Mes de pensión: "/>
+                                            <p:selectOneMenu id="mesPago" value="#{registrarpago.mes}" >
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItems value="#{registrarpago.listaMesesFechaActual}" />
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                   
+                                    <p:panel id="panel3"
+                                             rendered="#{registrarpago.mostrado[3]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="¡Pago registrado correctamente...!"/>
+                                        <br/><br/>
+                                        <h:panelGrid columns="2" cellspacing="15px">
+                                            <p:outputLabel for="nombrepago"  value="> Nombres: "/>
+                                            <p:outputLabel id="nombrepago" value="#{registrarpago.alumnoSeleccionado.apePat} 
+                                                           #{registrarpago.alumnoSeleccionado.apeMat} 
+                                                           #{registrarpago.alumnoSeleccionado.primerNom} 
+                                                           #{registrarpago.alumnoSeleccionado.segundoNom}"/>
+                                            <p:outputLabel for="nivel"  value="> Nivel: "/>
+                                            <p:outputLabel id="nivel" value="#{registrarpago.matriculaActual.aula.nivel}"/> 
+                                            <p:outputLabel for="grado"  value="> Grado: "/>
+                                            <p:outputLabel id="grado"  value="#{registrarpago.matriculaActual.aula.numGrad}"/>
+                                            <p:outputLabel for="seccion"  value="> Sección: "/>
+                                            <p:outputLabel id="seccion" value="#{registrarpago.matriculaActual.aula.seccion}"/>
+                                            <p:outputLabel  for="mes" value="> Mes: "/>
+                                            <p:outputLabel  id="mes" value="#{registrarpago.mes}"/>
+                                            
+                                        </h:panelGrid>
+
+                                        <br/>
+                                        
+                                        <br/>
+                                        <p:commandButton value="Imprimir Reporte"/>
+                                        <br/>
+                                    </p:panel>
+                                    
+                            </p:scrollPanel> 
+                                
+                            <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{registrarpago.retrocede}"
+                                        disabled="#{registrarpago.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{registrarpago.botonContinuar}" 
+                                        action="#{registrarpago.continua}"
+                                        disabled="#{registrarpago.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                </h:panelGrid>
+                             </h:form>
+                            <p:dialog header="Seleccione" widgetVar="noseleccionado" modal="true" height="100">
+                                <h:outputText value="Seleccione alumno para continuar." />
+                            </p:dialog> 
+                            <p:dialog header="Ingrese dígitos" widgetVar="nada" modal="true" height="100">
+                                <h:outputText value="Ingrese numero de transaccion" />
+                            </p:dialog>
+                            <p:dialog header="Error" widgetVar="noencontrado" modal="true" height="100">
+                                <h:outputText value="Número de transacción no válido o no encontrado" />
+                            </p:dialog>
+                            <p:dialog header="Ya usado" widgetVar="usado" modal="true" height="100">
+                                <h:outputText value="“Número de transacción ya ha sido empleado." />
+                            </p:dialog>
+                            <p:dialog header="Ya registrado" widgetVar="otroconcepto" modal="true" height="100">
+                                <h:outputText value="Numero de transacción perteneciente a otro concepto de pago." />
+                            </p:dialog>
+                            <p:dialog header="No existe" widgetVar="encontrado" modal="true" height="100">
+                                <h:outputText value="Código de voucher encontrado." />
+                            </p:dialog>
+                            <p:dialog header="Seleccione correctamente" widgetVar="mesnoantiguo" modal="true" height="100">
+                                <h:outputText value="Seleccione el mes del que registra la deuda más antigua para poder continuar." />
+                            </p:dialog>
+                            <p:dialog header="Seleccione mes" widgetVar="noseleccionames" modal="true" height="100">
+                                <h:outputText value="Seleccione el mes que desea pagar." />
+                            </p:dialog> 
+                            <p:dialog header="Error" widgetVar="CodMatriculaNoEncontrado" modal="true" height="100">
+                                <h:outputText value="Aqui esta el error :/." />
+                            </p:dialog> 
+                            <p:confirmDialog message="¿Confirmar operación?" 
+                                             header="Confirmar Pago" severity="alert" 
+                                             widgetVar="confirmaroperacion">
+                                <p:commandButton value="Aceptar" 
+                                                 oncomplete="PF('confirmaroperacion').hide()"/>
+                                <p:commandButton value="Cancelar" onclick="PF('confirmaroperacion').hide()" type="button" />
+                            </p:confirmDialog>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                    <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:panelGrid>
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

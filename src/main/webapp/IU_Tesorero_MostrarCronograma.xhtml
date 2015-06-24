@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Cronogramas de Pagos</title>
+        </h:head>
+        <h:body>
+            
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{tesorerobean.volverMenu}"/>
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{tesorerobean.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{tesorerobean.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{tesorerobean.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Cronograma de Pagos">
+                    <p:accordionPanel
+                        activeIndex="0,1,2">
+                        <p:tab title="Cronograma de Pagos" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                       closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="3" cellpadding="20">
+                                            
+                                            <p:outputLabel value="Mes" ></p:outputLabel>
+                                            <p:outputLabel value="Inicio" ></p:outputLabel>
+                                            <p:outputLabel value="Fin" ></p:outputLabel>
+                                            
+                                            <p:outputLabel value="Marzo" ></p:outputLabel>
+                                            <p:inputText  id="fini_Mar" value="01-03-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Mar" value="06-03-2015" disabled="true"/>
+                                            <p:outputLabel value="Abril" ></p:outputLabel>
+                                            <p:inputText  id="fini_Abr" value="01-04-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Abr" value="06-04-2015" disabled="true"/>
+                                            <p:outputLabel value="Mayo" ></p:outputLabel>
+                                            <p:inputText  id="fini_May" value="01-05-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_May" value="06-05-2015" disabled="true"/>
+                                            <p:outputLabel value="Junio" ></p:outputLabel>
+                                            <p:inputText  id="fini_Jun" value="01-06-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Jun" value="06-06-2015" disabled="true"/>
+                                            <p:outputLabel value="Julio" ></p:outputLabel>
+                                            <p:inputText  id="fini_Jul" value="01-07-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Jul" value="06-07-2015" disabled="true"/>
+                                            <p:outputLabel value="Agosto" ></p:outputLabel>
+                                            <p:inputText  id="fini_Ago" value="01-08-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Ago" value="06-08-2015" disabled="true"/>
+                                            <p:outputLabel value="Setiembre" ></p:outputLabel>
+                                            <p:inputText  id="fini_Set" value="01-09-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Set" value="06-09-2015" disabled="true"/>
+                                            <p:outputLabel value="Octubre" ></p:outputLabel>
+                                            <p:inputText  id="fini_Oct" value="01-10-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Oct" value="06-10-2015" disabled="true"/>
+                                            <p:outputLabel value="Noviembre" ></p:outputLabel>
+                                            <p:inputText  id="fini_Nov" value="01-11-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Nov" value="06-11-2015" disabled="true"/>
+                                            <p:outputLabel value="Diciembre" ></p:outputLabel>
+                                            <p:inputText  id="fini_Dic" value="01-12-2015" disabled="true"/>
+                                            <p:inputText  id="ffin_Dic" value="06-12-2015" disabled="true"/>
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    
+                                </p:scrollPanel>
+                                
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{tesorerobean.volverMenu}"
+                                        />
+                                 </h:panelGrid>
+                            </h:form>
+                           
+                        </p:tab>
+                        
+                        
+                    </p:accordionPanel>
+                    
+
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

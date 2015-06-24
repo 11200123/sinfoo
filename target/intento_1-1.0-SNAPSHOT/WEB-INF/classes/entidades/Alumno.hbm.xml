@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2015 11:04:58 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+  <class catalog="bd_colegio8" name="entidades.Alumno" table="alumno">
+    <id name="codigoAlumno" type="java.lang.Integer">
+      <column name="codigoAlumno"/>
+      <generator class="identity"/>
+    </id>
+    <many-to-one class="entidades.PadreDeFamilia" fetch="select" name="padreDeFamilia">
+      <column name="Padre_De_Familia_usuario_idUsuario" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="entidades.Ubicaciondocumentos" fetch="select" name="ubicaciondocumentos">
+      <column name="ubicacionDocumentos_codDocument" not-null="true"/>
+    </many-to-one>
+    <many-to-one class="entidades.Domicilio" fetch="select" name="domicilio">
+      <column name="domicilio_codDomicilio" not-null="true"/>
+    </many-to-one>
+    <property name="apePat" type="string">
+      <column length="45" name="apePat" not-null="true"/>
+    </property>
+    <property name="apeMat" type="string">
+      <column length="45" name="apeMat" not-null="true"/>
+    </property>
+    <property name="primerNom" type="string">
+      <column length="45" name="primerNom" not-null="true"/>
+    </property>
+    <property name="segundoNom" type="string">
+      <column length="45" name="segundoNom" not-null="true"/>
+    </property>
+    <property name="nacionalidad" type="string">
+      <column length="45" name="nacionalidad" not-null="true"/>
+    </property>
+    <property name="fechaNac" type="date">
+      <column length="10" name="fechaNac" not-null="true"/>
+    </property>
+    <property name="tipoDoc" type="string">
+      <column length="20" name="tipoDoc" not-null="true"/>
+    </property>
+    <property name="numDoc" type="string">
+      <column length="20" name="numDoc" not-null="true"/>
+    </property>
+    <property name="sexo" type="string">
+      <column length="10" name="sexo" not-null="true"/>
+    </property>
+    <property name="telfFijo" type="string">
+      <column length="10" name="telfFijo" not-null="true"/>
+    </property>
+    <property name="telfEmerg" type="string">
+      <column length="10" name="telfEmerg" not-null="true"/>
+    </property>
+    <property name="tieneDeudas" type="int">
+      <column name="tieneDeudas" not-null="true"/>
+    </property>
+    <property name="estadoActivo" type="int">
+      <column name="estadoActivo" not-null="true"/>
+    </property>
+    <property name="motivoRetiro" type="string">
+      <column length="45" name="motivoRetiro" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="matriculas" table="matricula">
+      <key>
+        <column name="alumno_codigoAlumno" not-null="true"/>
+      </key>
+      <one-to-many class="entidades.Matricula"/>
+    </set>
+  </class>
+</hibernate-mapping>

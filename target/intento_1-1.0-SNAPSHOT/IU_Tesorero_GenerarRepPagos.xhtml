@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Reporte de pagos</title>
+        </h:head>
+        <h:body>
+            
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{tesorerobean.volverMenu}"/>
+
+                    <f:facet name="options">
+                       <p:outputLabel rendered="true" value="Bienvenido: #{tesorerobean.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{tesorerobean.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{tesorerobean.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Generar Reporte de Pagos">
+                    <p:accordionPanel
+                        activeIndex="0,1,2">
+                        <p:tab title="Reporte de Pagos" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    
+                                    <p:panel
+                                             rendered="true"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Edite los campos a continuación:"/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel value="Grado"/>
+                                            <p:selectOneMenu id="grado" value="2">
+                                                <f:selectItem itemLabel="1" />
+                                                <f:selectItem itemLabel="2" />
+                                                <f:selectItem itemLabel="3" />
+                                                <f:selectItem itemLabel="4" />
+                                                <f:selectItem itemLabel="5" />
+                                                <f:selectItem itemLabel="6" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel value="Sección"/>
+                                            <p:selectOneMenu id="seccion" value="A">
+                                                <f:selectItem itemLabel="A" />
+                                                <f:selectItem itemLabel="B" />
+                                                <f:selectItem itemLabel="C" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel value="Nivel"/>
+                                            <p:selectOneMenu id="nivel" value="Primaria" >
+                                                <f:selectItem itemLabel="Primaria" />
+                                                <f:selectItem itemLabel="Secundaria" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel value="Tipo de Pagos"/>
+                                            <p:selectOneMenu id="tipoPago" value="Pagos Pendientes Totales">
+                                                <f:selectItem itemLabel="Pagos Pendientes Totales" />
+                                                <f:selectItem itemLabel="Pagos Pendientes del Mes Actual" />
+                                                <f:selectItem itemLabel="Pagos del Mes Actual" />
+                                                <f:selectItem itemLabel="Pagos por Matrícula" />
+                                            </p:selectOneMenu>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{tesorerobean.volverMenu}"
+                                        
+                                        />
+                                    <p:commandButton  
+                                        value="Generar Reporte" 
+                                        action="#"
+                                        
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                            
+                            
+                        </p:tab>
+                        
+                        
+                    </p:accordionPanel>
+                    
+
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

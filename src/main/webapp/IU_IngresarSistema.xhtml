@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>.:: SINFOJPP ::. - Sistema de Información del Colegio Juan Pablo Peregrino</title>
+            <link type="text/css" rel="stylesheet" href="css/estiloIndex.css"/>
+        </h:head>
+        <h:body style="background-image: url('./src/fondo.png');">
+            
+          
+                    <h:form>
+                        <h:panelGrid columns="1" style="margin: 0 auto;">
+                                            <p:carousel itemStyle="width: 950px; height: 370px;" itemStyleClass="carItem" pageLinks="4" autoPlayInterval="4000" numVisible="1" effect="easeInStrong" circular="true">  
+                                                <p:graphicImage value="./src/colegio.jpg" />
+                                                    <p:graphicImage value="./src/colegio_1.jpg" style="margin: 0 auto;"/>
+                                                    <p:graphicImage value="./src/colegio_2.jpg"/>
+
+                                                </p:carousel>
+                        </h:panelGrid>
+                        <p:panelGrid columns="1" style="margin: 0 auto;">
+                            <f:facet name="header">
+                                <p:outputLabel value="Login"/>
+                            </f:facet>
+                        <h:panelGrid columns="3" cellspacing="15px" style="margin: 0 auto;">
+                                                
+                            <p:outputLabel for="username" value="Usuario: "/>
+                            <p:inputText  id="username" value="#{login.usuario}" /> 
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel for="password" value="Password: "/>
+                            <p:password  id="password" value="#{login.password}" /> 
+                         <h:panelGroup></h:panelGroup><h:panelGroup></h:panelGroup>
+                         <p:commandButton value="Ingresar" action="#{login.validaIngreso}">
+                            <f:param name="usuario" value="#{login.usuario}"/> 
+                        </p:commandButton>
+                          <h:panelGroup></h:panelGroup>
+                        </h:panelGrid>  
+                            </p:panelGrid>
+                    </h:form>
+            <p:dialog header="Error" widgetVar="noingresado" modal="true" height="100">
+                <h:outputText value="Usuario o password incorrectos" />
+            </p:dialog>  
+            <p:dialog header="Espere" widgetVar="esperando" modal="true" height="100">
+                <h:outputText value="Debe esperar a que culminen los 5 minutos." />
+            </p:dialog>  
+            <p:confirmDialog message="Excedió el límite de intentos. Deberá esperar 5 minutos." 
+                             header="Cantidad intentos fallidos." severity="alert" widgetVar="excedido">
+                
+                <p:commandButton  value="Aceptar" action="#{login.esperar}"/>
+            </p:confirmDialog>
+        </h:body>
+    </f:view>
+</html>

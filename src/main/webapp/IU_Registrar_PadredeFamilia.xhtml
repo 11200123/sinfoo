@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestionar Padre de familia</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+                <p:menubar>
+                    <p:menuitem value="Atras" action="#{registrarpadre.volverMenu}"  icon="ui-icon-carat-1-e" />
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{registrarpadre.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{registrarpadre.rol}"/>
+                        <p:commandButton  value="Salir"  action="#{registrarpadre.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestion de Padres de familia">
+                    <h:form>
+                        <p:scrollPanel
+                            style="height:330px">
+                            <p:panel
+                                rendered="#{registrarpadre.mostrado[0]}"
+                                closable="true"
+                                toggleable="true"
+                                style="border: transparent;">
+
+                                <p:outputLabel 
+                                    rendered="true"
+                                    value="Ingrese Información Personal del Padre Nuevo"/>
+
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:outputLabel for="apepatapo" value="Apellido Paterno: "/>
+                                    <p:inputText  id="apepatapo" value="#{registrarpadre.padre.apePat}" /> 
+                                    <p:outputLabel for="apematapo" value="Apellido Materno: "/>
+                                    <p:inputText  id="apematapo" value="#{registrarpadre.padre.apeMat}" />
+                                    <p:outputLabel for="nomapo" value="Primer Nombre: "/>
+                                    <p:inputText  id="nomapo" value="#{registrarpadre.padre.nombre1}" />
+                                    <p:outputLabel for="nomapo2" value="Segundo Nombre: "/>
+                                    <p:inputText  id="nomapo2" value="#{registrarpadre.padre.nombre2}" />
+                                    <p:outputLabel for="dniapo" value="Documento de identidad (Tipo):  "/>
+                                    <p:selectOneMenu id="dniapo" value="DNI">
+                                        <f:selectItem itemLabel="DNI" itemValue="DNI" />
+                                        <f:selectItem itemLabel="Libreta electoral" itemValue="Libreta electoral" />
+                                        <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte" />
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="nrodoc" value="Número de documento:  "/>
+                                    <p:inputText  id="nrodoc" value="#{registrarpadre.padre.numDoc}" maxlength="8"/>
+                                    <p:outputLabel for="sexo" value="Sexo: "/>
+                                    <p:selectOneMenu id="sexo" value="#{registrarpadre.padre.sexo}">
+                                        <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                        <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                    </p:selectOneMenu>
+                                    <p:outputLabel for="telf" value="Telefono: "/>
+                                    <p:inputText  id="telf" value="#{registrarpadre.padre.telefono}" maxlength="7">
+                                    </p:inputText>
+                                    <p:outputLabel for="emailapo" value="Email: "/>
+                                    <p:inputText  id="emailapo" value="#{registrarpadre.cadenaEmail}" />
+                                </h:panelGrid>
+                            </p:panel>
+                            <p:panel 
+                                rendered="#{registrarpadre.mostrado[1]}"
+                                closable="true"
+                                toggleable="true"
+                                style="border: transparent;">
+                                <p:outputLabel
+                                    rendered="true"
+                                    value="Información para el login del padre:"/>
+                                <br></br>
+                                <br></br>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:outputLabel value="Nombres: "/>
+                                    #{registrarpadre.padre.apePat}
+                                    #{registrarpadre.padre.apeMat}
+                                    #{registrarpadre.padre.nombre1}
+                                    #{registrarpadre.padre.nombre2}                                    
+                                    <br/>
+                                    <p:outputLabel value=" - Usuario: " />
+                                    #{registrarpadre.nuevoPadre.idUsuario}
+                                    <br/>
+                                    <p:outputLabel value=" - Pass: " />
+                                    #{registrarpadre.nuevoPadre.idUsuario}
+                                </h:panelGrid>
+                                <br></br>
+                                <p:outputLabel value="*** Confirmar registro del nuevo padre?***" />
+                                <br/><br/>
+                                <p:commandButton value="Registrar" action="#{registrarpadre.registrarUsuarioPadre}"
+                                type="submit"
+                                update="@form"/>
+                                
+                            </p:panel>
+                        </p:scrollPanel>
+                        
+                        
+                        <h:panelGrid columns="2" cellpadding="10">
+                            <p:commandButton  
+                                value="Volver" 
+                                action="#{registrarpadre.retroceder}"
+                                disabled="#{registrarpadre.volverDesactivado}"
+                                type="submit"
+                                update="@form"
+                            />
+                            <p:commandButton  
+                                value="#{registrarpadre.botonContinuar}" 
+                                action="#{registrarpadre.continuar}"
+                                disabled="#{registrarpadre.continuarDesactivado}"
+                                type="submit"
+                                update="@form"
+                            />
+                            
+                        </h:panelGrid>
+                        
+                    </h:form>    
+                    
+                    <p:dialog header="Complete" widgetVar="campos_vacios" modal="true" height="100">
+                       <h:outputText value="Complete todos los campos." />
+                    </p:dialog>
+                    <p:dialog header="Ya existe" widgetVar="existe" modal="true" height="100">
+                       <h:outputText value="Ya se ha registrado anteriormente a este padre." />
+                    </p:dialog>
+                    <p:dialog header="Ingrese números" widgetVar="no_numero" modal="true" height="100">
+                       <h:outputText value="Debe ingresar números en DNI y Teléfono." />
+                    </p:dialog>
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

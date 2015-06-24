@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Registro de matrícula</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+                <p:menubar>
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{registrarmatricula.volverMenu}"/>
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{registrarmatricula.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{registrarmatricula.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{registrarmatricula.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestión de Matrícula">
+                    <p:accordionPanel  activeIndex="0,1" multiple="false">
+                        <p:tab title="Registrar matrícula" rendered="true" >
+                            <h:form rendered="true">
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        id="panel0"
+                                        rendered="#{registrarmatricula.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Registrando pago de matricula"/>
+                                        <br/>
+                                        <br/>
+                                        <p:outputLabel
+                                            rendered="true"
+                                            value="Ingrese el número de operación (número de 10 dígitos que se
+                                            encuentre en la parte superior del voucher de pago)"/>
+                                        <br/>
+                                        <br/>
+                                        <p:inputText 
+                                            id="txt_NumeroVoucher"
+                                            value="#{registrarmatricula.numVoucher}" maxlength="10"/>
+                                    </p:panel>
+                                    <p:panel id="panel1"
+                                             rendered="#{registrarmatricula.mostrado[1]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Información personal del alumno nuevo"/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel for="apepat" value="Apellido Paterno: "/>
+                                            <p:inputText  id="apepat" value="#{registrarmatricula.alu.apePat}" /> 
+                                            <p:outputLabel for="apemat" value="Apellido Materno: "/>
+                                            <p:inputText  id="apemat" value="#{registrarmatricula.alu.apeMat}" />
+                                            <p:outputLabel for="nom" value="Primer Nombre: "/>
+                                            <p:inputText  id="nom" value="#{registrarmatricula.alu.primerNom}" />
+                                            <p:outputLabel for="nom2" value="Segundo Nombre: "/>
+                                            <p:inputText  id="nom2" value="#{registrarmatricula.alu.segundoNom}" />
+                                            <p:outputLabel for="fecha_nac" value="Fecha de nacimiento: "/>
+                                            <p:calendar id="fecha_nac" value="#{registrarmatricula.alu.fechaNac}" showOn="button" />
+                                            <p:outputLabel for="pais" value="Nacionalidad: "/>
+                                            <p:selectOneMenu id="pais" value="#{registrarmatricula.alu.nacionalidad}">
+                                                <f:selectItem itemLabel="Peru" itemValue="Perú" />
+                                                <f:selectItem itemLabel="Brasil" itemValue="Brasil" />
+                                                <f:selectItem itemLabel="Bolivia" itemValue="Bolivia" />
+                                                <f:selectItem itemLabel="Argentina" itemValue="Argentina" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="dni" value="Documento de identidad: "/>
+                                            <p:selectOneMenu id="dni" value="#{registrarmatricula.alu.tipoDoc}">
+                                                <f:selectItem itemLabel="DNI" itemValue="DNI" />
+                                                <f:selectItem itemLabel="Libreta electoral" itemValue="Libreta electoral" />
+                                                <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="nro_doc" value="Numero de documento (*): "/>
+                                            <p:inputText  id="nro_doc"  value="#{registrarmatricula.alu.numDoc}" maxlength="8">
+                                                <f:validateLength maximum="8" minimum="8"/>
+                                            </p:inputText>
+                                            <p:outputLabel for="sex" value="Sexo: "/>
+                                            <p:selectOneMenu id="sex" value="#{registrarmatricula.alu.sexo}">
+                                                <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                                <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="telf_fijo" value="Telefono fijo (**): "/>
+                                            <p:inputText  id="telf_fijo" value="#{registrarmatricula.alu.telfFijo}" maxlength="7">
+                                                <f:validateLength maximum="7" minimum="7"/>
+                                            </p:inputText>
+                                            <p:outputLabel for="telf_emer" value="Telefono de emergencia (**): "/>
+                                            <p:inputText  id="telf_emer" value="#{registrarmatricula.alu.telfEmerg}" maxlength="7">
+                                                <f:validateLength maximum="7" minimum="7"/>
+                                            </p:inputText>
+                                            <p:outputLabel value="(*) 8 dígitos. (**) 7 dígitos."/>
+                                        </h:panelGrid>
+                                        <p:dialog header="Complete campos" widgetVar="camposvacios" modal="true" height="100">
+                                            <h:outputText value="Complete todos los campos" />
+                                        </p:dialog>
+                                        <p:dialog header="Ingrese dígitos" widgetVar="camposNumericos_dni" modal="true" height="100">
+                                            <h:outputText value="Ingrese valor numérico en el campo Doc. de Identidad" />
+                                        </p:dialog>
+                                        <p:dialog header="Ingrese campos" widgetVar="camposNumericos_telefono" modal="true" height="100">
+                                            <h:outputText value="Ingrese valor numérico en el campo Teléfono" />
+                                        </p:dialog>
+                                        <p:dialog header="Error" widgetVar="fecha_razonable" modal="true" height="100">
+                                            <h:outputText value="La fecha debe ser anterior a hoy." />
+                                        </p:dialog>
+                                    </p:panel>
+                                    <p:panel id="panel2"
+                                             rendered="#{registrarmatricula.mostrado[2]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Domicilio de un alumno nuevo"/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel for="dep" value="Departamento: " />
+                                            <p:selectOneMenu id="dep" value="#{registrarmatricula.dom.departamento}" >
+                                                <f:selectItem itemLabel="Lima" itemValue="Lima" />
+                                                <f:selectItem itemLabel="Arequipa" itemValue="Arequipa" />
+                                                <f:selectItem itemLabel="Trujillo" itemValue="Trujillo" />
+                                                <f:selectItem itemLabel="Chiclayo" itemValue="Chiclayo" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="prov" value="Provincia: "/>
+                                            <p:selectOneMenu id="prov" value="#{registrarmatricula.dom.provincia}" >
+                                                <f:selectItem itemLabel="Lima" itemValue="Lima" />
+                                                <f:selectItem itemLabel="Huacho" itemValue="Huacho" />
+                                                <f:selectItem itemLabel="Barranca" itemValue="Barranca" />
+                                                <f:selectItem itemLabel="Trujillo" itemValue="Trujillo" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="distr" value="Distrito: "/>
+                                            <p:selectOneMenu id="distr" value="#{registrarmatricula.dom.distrito}" >
+                                                <f:selectItem itemLabel="San juan" itemValue="San Juan" />
+                                                <f:selectItem itemLabel="San borja" itemValue="San borja" />
+                                                <f:selectItem itemLabel="La victoria" itemValue="La victoria" />
+                                                <f:selectItem itemLabel="Cercado de lima" itemValue="Cercado de lima" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="direcc" value="Direccion: "/>
+                                            <p:inputText  id="direcc" value="#{registrarmatricula.cadenaDireccion}" />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    <p:panel id="panel3"
+                                             rendered="#{registrarmatricula.mostrado[3]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <h:panelGrid columns="3" cellpadding="10">
+                                            <p:outputLabel rendered="true" value="Ingrese nombre o parte del nombre"/>
+                                            <p:inputText id="busquedaAlumno" value="#{registrarmatricula.nombreBuscado}"/>
+                                            <p:commandButton value="Buscar" action="#{registrarmatricula.buscarPadres}" update="tablaPadres"/>
+                                        </h:panelGrid>	
+                    
+                                        <p:dataTable
+                                            id="tablaPadres"
+                                            var="matricula"
+                                            value="#{registrarmatricula.listaPadres}"
+                                            selection="#{registrarmatricula.padreSeleccionado}"
+                                            selectionMode="single"
+                                            rowKey="#{matricula.idUsuario}">
+                                            <p:column headerText="Apellido Paterno">
+                                                <h:outputText value="#{matricula.padreDeFamilia.apePat}" />
+                                            </p:column>
+                                            <p:column headerText="Apellido Materno">
+                                                <h:outputText value="#{matricula.padreDeFamilia.apeMat}" />
+                                            </p:column>
+                                            <p:column headerText="Primer Nombre">
+                                                <h:outputText value="#{matricula.padreDeFamilia.nombre1}" />
+                                            </p:column>
+                                            <p:column headerText="Segundo Nombre">
+                                                <h:outputText value="#{matricula.padreDeFamilia.nombre2}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:panel>
+                                    <p:dialog header="Ingrese dígitos" widgetVar="camposvacios" modal="true" height="100">
+                                        <h:outputText value="Complete todos los campos." />
+                                    </p:dialog>
+                                    <p:panel id="panel4"
+                                             rendered="#{registrarmatricula.mostrado[4]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Documentos del alumno"/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel for="nroFCertNot" value="Nro de folio  de certificado de notas: "/>
+                                            <p:inputText  id="nroFCertNot" value="#{registrarmatricula.ubi.numFolioCertNotas}"  maxlength="10"/>
+                                            <p:outputLabel for="nroPartNac" value="Nro de folio de partida de nacimiento: "/>
+                                            <p:inputText  id="nroPartNac" value="#{registrarmatricula.ubi.numFolioPartNac}"  maxlength="10"/>
+                                            <p:outputLabel for="nroFolContComport" value="Nro de folio de constancia de comportamiento: "/>
+                                            <p:inputText  id="nroFolContComport" value="#{registrarmatricula.ubi.numFolioCertComport}"  maxlength="10"/>
+                                        </h:panelGrid>
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Información de matrícula"/>
+                                        <h:panelGrid columns="4" cellpadding="10">
+                                            <p:outputLabel for="nivelAlum" value="Nivel: " />
+                                            <p:selectOneMenu id="nivelAlum" value="#{registrarmatricula.aula.nivel}">
+                                                <p:ajax listener="#{registrarmatricula.actualizarGrados}" update="gradoAlum" /> 
+                                                <p:ajax listener="#{registrarmatricula.actualizarSecciones}" update="seccionAlum" />
+                                                <p:ajax listener="#{registrarmatricula.actualizarCantidades}"  update="txtCantidad" />
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItem itemLabel="Primaria" itemValue="1" />
+                                                <f:selectItem itemLabel="Secundaria" itemValue="2" />
+                                            </p:selectOneMenu>
+                                            <h:panelGroup></h:panelGroup>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:outputLabel for="gradoAlum" value="Grado: "/>
+                                            <p:selectOneMenu id="gradoAlum" value="#{registrarmatricula.aula.numGrad}" >
+                                                <p:ajax listener="#{registrarmatricula.actualizarSecciones}" update="seccionAlum" />
+                                                <p:ajax listener="#{registrarmatricula.actualizarCantidades}"  update="txtCantidad" />
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItems value="#{registrarmatricula.listaGrados}" var="aulagrados"
+                                                               itemLabel="#{aulagrados.numGrad}" itemValue="#{aulagrados.numGrad}" />
+                                            </p:selectOneMenu>
+                                            <h:panelGroup></h:panelGroup>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:outputLabel for="seccionAlum" value="Seccion: "/>
+                                            <p:selectOneMenu id="seccionAlum" value="#{registrarmatricula.aula.seccion}" >
+                                                <p:ajax listener="#{registrarmatricula.actualizarCantidades}"  update="txtCantidad" />
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItems value="#{registrarmatricula.listaSecciones}" var="aulasecciones"
+                                                               itemLabel="#{aulasecciones.seccion}" itemValue="#{aulasecciones.seccion}" />
+                                            </p:selectOneMenu>
+                                            <p:inputText id="txtCantidad" size="30" value="#{registrarmatricula.aula.cantidadAlumnos} matriculados de #{registrarmatricula.aula.limiteAlumnos}" disabled="true" />
+                                            <br/>
+                                            <p:outputLabel value="Nivel: 1 = Primaria, "/>
+                                            <p:outputLabel value="2 = Secundaria. "/>
+                                            <h:panelGroup></h:panelGroup>
+                                            <h:panelGroup></h:panelGroup>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    <p:dialog header="Ingrese dígitos" widgetVar="camposvacios" modal="true" height="100">
+                                        <h:outputText value="Complete todos los campos." />
+                                    </p:dialog>
+                                    <p:panel id="panel5"
+                                             rendered="#{registrarmatricula.mostrado[5]}"
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Inscripción del alumno y matrícula finalizada con exito...!"/>
+                                        <br/>
+                                        <br/>
+                                        <p:outputLabel rendered="true" value="REPORTE DE MATRÍCULA:"/><br/><br/>
+                                        <p:outputLabel rendered="true" value="Fecha:"/>
+                                        #{registrarmatricula.fechaActual}
+                                        <br/>
+                                        <p:outputLabel rendered="true" value="Padre de Familia:"/>
+                                        #{registrarmatricula.padreSeleccionado.padreDeFamilia.apePat}
+                                        #{registrarmatricula.padreSeleccionado.padreDeFamilia.apeMat}
+                                        #{registrarmatricula.padreSeleccionado.padreDeFamilia.nombre1}
+                                        #{registrarmatricula.padreSeleccionado.padreDeFamilia.nombre2}
+                                        <br/>
+                                        <p:outputLabel rendered="true" value="Alumno: "/>
+                                        #{registrarmatricula.alu.apePat}
+                                        #{registrarmatricula.alu.apeMat}
+                                        #{registrarmatricula.alu.primerNom}
+                                        #{registrarmatricula.alu.segundoNom}
+                                        <br/>
+                                        <p:outputLabel rendered="true" value="Nivel: "/> 
+                                        #{registrarmatricula.aula.nivel}
+                                        <br/>
+                                        <p:outputLabel rendered="true" value="Grado / Sección: "/> 
+                                        #{registrarmatricula.aula.numGrad}
+                                        <p:outputLabel rendered="true" value=" / "/>
+                                        #{registrarmatricula.aula.seccion }
+                                        <br/>
+                                        <br/>
+                                        <p:outputLabel value="*Conserve en un lugar seguro la información de la cuenta" />
+                                        <br/>
+                                        <p:button value="Imprimir Reporte de Matrícula"/>
+                                        <br/>
+                                    </p:panel>
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{registrarmatricula.retrocede}"
+                                        disabled="#{registrarmatricula.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{registrarmatricula.botonContinuar}" 
+                                        action="#{registrarmatricula.continua}"
+                                        disabled="#{registrarmatricula.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                            <p:dialog header="Complete campos" widgetVar="noingresado" modal="true" height="100">
+                                <h:outputText value="Ingrese al menos un nombre" />
+                            </p:dialog> 
+                            <p:dialog header="Aula llena" widgetVar="aula_llena" modal="true" height="100">
+                                <h:outputText value="El aula no cuenta con mayor capacidad, intente con otra." />
+                            </p:dialog>
+                            <p:dialog header="Seleccione" widgetVar="nopadre" modal="true" height="100">
+                                <h:outputText value="Seleccione un padre de la lista." />
+                            </p:dialog> 
+                            <p:dialog header="Ya eliminado" widgetVar="padre_inactivo" modal="true" height="100">
+                                <h:outputText value="El padre seleccionado figura como Eliminado." />
+                            </p:dialog> 
+                            <p:dialog header="Error" widgetVar="noencontrado" modal="true" height="100">
+                                <h:outputText value="Numero de transacción no válido o no encontrado." />
+                            </p:dialog>
+                            <p:dialog header="No corresponde" widgetVar="no_monto" modal="true" height="100">
+                                <h:outputText value="El monto del voucher no corresponde a la cantidad establecida." />
+                            </p:dialog>
+                            <p:dialog header="Ya usado" widgetVar="ya_usado" modal="true" height="100">
+                                <h:outputText value="Número de transacción ya ha sido usado." />
+                            </p:dialog>
+                            <p:dialog header="Ya existe" widgetVar="dni_usado" modal="true" height="100">
+                                <h:outputText value="El dni ya pertenece a otro." />
+                            </p:dialog>
+                            <p:dialog header="No acorde" widgetVar="no_matricula" modal="true" height="100">
+                                <h:outputText value="El voucher no ha sido registrado por concepto de Matrícula." />
+                            </p:dialog>
+                            <p:dialog header="Ingrese dígitos" widgetVar="no_numero" modal="true" height="100">
+                                <h:outputText value="Ingrese los NUMEROS correctos." />
+                            </p:dialog>
+                            <p:dialog header="Ingrese dígitos" widgetVar="camposvacios" modal="true" height="100">
+                                <h:outputText value="Complete todos los campos." />
+                            </p:dialog>
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                    <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:panelGrid>
+                        </p:tab>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <p:tab title="Modificar matrícula" rendered="true">
+                            <h:form rendered="true">
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        rendered="#{modificarmatricula.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;"
+                                        >
+                                        <p:outputLabel rendered="true" value="Buscar alumno"/>
+                                        <h:panelGrid columns="3" cellpadding="10">
+                                            <p:outputLabel rendered="true" value="Ingrese nombre o parte del nombre"/>
+                                            <p:inputText id="busquedaAlumno" value="#{modificarmatricula.nombreBuscado}"/>
+                                            <p:commandButton value="Buscar" action="#{modificarmatricula.buscarMatriculas}" update="tablaMatriculados"/>
+                                        </h:panelGrid>
+                                        <br/>
+                                        <p:dataTable
+                                            id="tablaMatriculados"
+                                            var="matricula"
+                                            value="#{modificarmatricula.listaMatriculados}"
+                                            selection="#{modificarmatricula.matriculaSeleccionada}"
+                                            selectionMode="single"
+                                            rowKey="#{matricula.codMatricula}">
+                                            <p:column headerText="Apellido Paterno">
+                                                <h:outputText value="#{matricula.alumno.apePat}" />
+                                            </p:column>
+                                            <p:column headerText="Apellido Materno">
+                                                <h:outputText value="#{matricula.alumno.apeMat}" />
+                                            </p:column>
+                                            <p:column headerText="Primer Nombre">
+                                                <h:outputText value="#{matricula.alumno.primerNom}" />
+                                            </p:column>
+                                            <p:column headerText="Segundo Nombre">
+                                                <h:outputText value="#{matricula.alumno.segundoNom}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:panel>
+                                    <p:panel
+                                        rendered="#{modificarmatricula.mostrado[1]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:panel
+                                            header="Información personal">
+                                            <h:panelGrid columns="2" cellpadding="10">
+                                                <p:outputLabel for="apepat" value="Apellido paterno: "/>
+                                                <p:inputText  id="apepat" value="#{modificarmatricula.matriculaSeleccionada.alumno.apePat}" /> 
+                                                <p:outputLabel for="apemat" value="Apellido materno: "/>
+                                                <p:inputText  id="apemat" value="#{modificarmatricula.matriculaSeleccionada.alumno.apeMat}" />
+                                                <p:outputLabel for="primerNom" value="Primer nombre: "/>
+                                                <p:inputText  id="primerNom" value="#{modificarmatricula.matriculaSeleccionada.alumno.primerNom}" />
+                                                <p:outputLabel for="segundoNom" value="Segundo nombre: "/>
+                                                <p:inputText  id="segundoNom" value="#{modificarmatricula.matriculaSeleccionada.alumno.segundoNom}" />
+                                                <p:outputLabel for="fecha_naci" value="Fecha de nacimiento: "/>
+                                                <p:calendar id="fecha_naci" value="#{modificarmatricula.matriculaSeleccionada.alumno.fechaNac}" showOn="button" />
+                                                <p:outputLabel for="pais" value="Nacionalidad"/>
+                                                <p:selectOneMenu id="pais" value="#{modificarmatricula.matriculaSeleccionada.alumno.nacionalidad}">
+                                                    <f:selectItem itemLabel="Peru" itemValue="Perú" />
+                                                    <f:selectItem itemLabel="Brasil" itemValue="Brasil" />
+                                                    <f:selectItem itemLabel="Bolivia" itemValue="Bolivia" />
+                                                    <f:selectItem itemLabel="Argentina" itemValue="Argentina" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="dni" value="Documento de identidad: "/>
+                                                <p:selectOneMenu id="dni" value="#{modificarmatricula.matriculaSeleccionada.alumno.tipoDoc}">
+                                                    <f:selectItem itemLabel="DNI" itemValue="DNI" />
+                                                    <f:selectItem itemLabel="Libreta electoral" itemValue="Libreta electoral" />
+                                                    <f:selectItem itemLabel="Pasaporte" itemValue="Pasaporte" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="nro_doc" value="Numero de documento: "/>
+                                                <p:inputText  id="nro_doc" value="#{modificarmatricula.matriculaSeleccionada.alumno.numDoc}" maxlength="8">
+                                                    <f:validateLength maximum="8" minimum="8"/>
+                                                </p:inputText>
+                                                <p:outputLabel for="sex" value="Sexo: "/>
+                                                <p:selectOneMenu id="sex" value="#{modificarmatricula.matriculaSeleccionada.alumno.sexo}">
+                                                    <f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+                                                    <f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="telf_fijo" value="Telefono fijo: "/>
+                                                <p:inputText  id="telf_fijo" value="#{modificarmatricula.matriculaSeleccionada.alumno.telfFijo}" maxlength="7">
+                                                    <f:validateLength maximum="7" minimum="7"/>
+                                                </p:inputText>
+                                                <p:outputLabel for="telf_emer" value="Telefono de emergencia: "/>
+                                                <p:inputText  id="telf_emer" value="#{modificarmatricula.matriculaSeleccionada.alumno.telfEmerg}" maxlength="7">
+                                                    <f:validateLength maximum="7" minimum="7"/>
+                                                </p:inputText>
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        <br/>
+                                        <p:panel
+                                            header="Domicilio">
+                                            <h:panelGrid columns="2" cellpadding="10">
+                                                <p:outputLabel for="dep" value="Departamento: " />
+                                                <p:selectOneMenu id="dep" value="#{modificarmatricula.matriculaSeleccionada.alumno.domicilio.departamento}" >
+                                                    <f:selectItem itemLabel="Lima" itemValue="Lima" />
+                                                    <f:selectItem itemLabel="Arequipa" itemValue="Arequipa" />
+                                                    <f:selectItem itemLabel="Trujillo" itemValue="Trujillo" />
+                                                    <f:selectItem itemLabel="Chiclayo" itemValue="Chiclayo" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="prov" value="Provincia: "/>
+                                                <p:selectOneMenu id="prov" value="#{modificarmatricula.matriculaSeleccionada.alumno.domicilio.provincia}" >
+                                                    <f:selectItem itemLabel="Lima" itemValue="Lima" />
+                                                    <f:selectItem itemLabel="Huacho" itemValue="Huacho" />
+                                                    <f:selectItem itemLabel="Barranca" itemValue="Barranca" />
+                                                    <f:selectItem itemLabel="Trujillo" itemValue="Trujillo" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="distr" value="Distrito: "/>
+                                                <p:selectOneMenu id="distr" value="#{modificarmatricula.matriculaSeleccionada.alumno.domicilio.distrito}" >
+                                                    <f:selectItem itemLabel="San juan" itemValue="San Juan" />
+                                                    <f:selectItem itemLabel="San borja" itemValue="San borja" />
+                                                    <f:selectItem itemLabel="La victoria" itemValue="La victoria" />
+                                                    <f:selectItem itemLabel="Cercado de lima" itemValue="Cercado de lima" />
+                                                </p:selectOneMenu>
+                                                <p:outputLabel for="direcc" value="Direccion: "/>
+                                                <p:inputText  id="direcc" value="#{modificarmatricula.matriculaSeleccionada.alumno.domicilio.direccion}" />
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        <p:panel
+                                            header="Matrícula">
+                                            <h:panelGrid columns="2" cellpadding="10">
+                                                <p:outputLabel for="notas" value="Nº Folio de Notas: "/>
+                                                <p:inputText  id="notas" value="#{modificarmatricula.matriculaSeleccionada.alumno.ubicaciondocumentos.numFolioCertNotas}" maxlength="10"/> 
+                                                <p:outputLabel for="comporta" value="Nº Folio Certificado de Comportamiento: "/>
+                                                <p:inputText  id="comporta" value="#{modificarmatricula.matriculaSeleccionada.alumno.ubicaciondocumentos.numFolioCertComport}" maxlength="10"/>
+                                                <p:outputLabel for="partid" value="Nº Folio Partida de Nacimiento: "/>
+                                                <p:inputText  id="partid" value="#{modificarmatricula.matriculaSeleccionada.alumno.ubicaciondocumentos.numFolioPartNac}" maxlength="10"/>
+                                                <p:outputLabel for="nivelAlum" value="Nivel (Antes: #{modificarmatricula.matriculaSeleccionada.aula.nivel}): " />
+                                            <p:selectOneMenu id="nivelAlum" value="#{modificarmatricula.aula.nivel}">
+                                                <p:ajax listener="#{modificarmatricula.actualizarGrados}" update="gradoAlum" /> 
+                                                <p:ajax listener="#{modificarmatricula.actualizarSecciones}" update="seccionAlum" />
+                                                <p:ajax listener="#{modificarmatricula.actualizarCantidades}"  update="txtCantidad" />
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItem itemLabel="Primaria" itemValue="1" />
+                                                <f:selectItem itemLabel="Secundaria" itemValue="2" />
+                                            </p:selectOneMenu>
+                                            <h:panelGroup></h:panelGroup>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:outputLabel for="gradoAlum" value="Grado (Antes: #{modificarmatricula.matriculaSeleccionada.aula.numGrad}): "/>
+                                            <p:selectOneMenu id="gradoAlum" value="#{modificarmatricula.aula.numGrad}" >
+                                                <p:ajax listener="#{modificarmatricula.actualizarSecciones}" update="seccionAlum" />
+                                                <p:ajax listener="#{modificarmatricula.actualizarCantidades}"  update="txtCantidad" />
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItems value="#{modificarmatricula.listaGrados}" var="aulagrados"
+                                                               itemLabel="#{aulagrados.numGrad}" itemValue="#{aulagrados.numGrad}" />
+                                            </p:selectOneMenu>
+                                            <h:panelGroup></h:panelGroup>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:outputLabel for="seccionAlum" value="Seccion (Antes: #{modificarmatricula.matriculaSeleccionada.aula.seccion}): "/>
+                                            <p:selectOneMenu id="seccionAlum" value="#{modificarmatricula.aula.seccion}" >
+                                                <p:ajax listener="#{modificarmatricula.actualizarCantidades}"  update="txtCantidad" />
+                                                <f:selectItem itemLabel="Seleccione uno" itemValue="0" />
+                                                <f:selectItems value="#{modificarmatricula.listaSecciones}" var="aulasecciones"
+                                                               itemLabel="#{aulasecciones.seccion}" itemValue="#{aulasecciones.seccion}" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="txtCantidad" value="Aula anterior: #{modificarmatricula.matriculaSeleccionada.aula.cantidadAlumnos} matriculados de #{modificarmatricula.matriculaSeleccionada.aula.limiteAlumnos}"/>
+                                            <p:inputText id="txtCantidad" size="30" value="#{modificarmatricula.aula.cantidadAlumnos} matriculados de #{modificarmatricula.aula.limiteAlumnos}" disabled="true" />              
+                                            </h:panelGrid>
+                                        </p:panel>
+                                        
+                                    <p:panel header="Información personal del Padre">
+                                        <p:outputLabel rendered="true" value="Padre registrado: "/>
+                                        #{modificarmatricula.matriculaSeleccionada.alumno.padreDeFamilia.apePat}
+                                        #{modificarmatricula.matriculaSeleccionada.alumno.padreDeFamilia.apeMat}
+                                        #{modificarmatricula.matriculaSeleccionada.alumno.padreDeFamilia.nombre1}
+                                        #{modificarmatricula.matriculaSeleccionada.alumno.padreDeFamilia.nombre2}
+                                        <br/><br/>
+                                        <p:outputLabel rendered="true" value="Buscar padre: "/>
+                                        <h:panelGrid columns="3" cellpadding="10">
+                                            <p:outputLabel rendered="true" value="Ingrese nombre o parte del nombre"/>
+                                            <p:inputText id="busquedaAlumno2" value="#{modificarmatricula.nombreBuscado2}"/>
+                                            <p:commandButton value="Buscar" action="#{modificarmatricula.buscarPadres}" update="tablaPadres2"/>
+                                        </h:panelGrid>	
+                    
+                                        <p:dataTable
+                                            id="tablaPadres2"
+                                            var="matricula2"
+                                            value="#{modificarmatricula.listaPadres}"
+                                            selection="#{modificarmatricula.padreSeleccionado}"
+                                            selectionMode="single"
+                                            rowKey="#{matricula2.idUsuario}">
+                                            <p:column headerText="Apellido Paterno">
+                                                <h:outputText value="#{matricula2.padreDeFamilia.apePat}" />
+                                            </p:column>
+                                            <p:column headerText="Apellido Materno">
+                                                <h:outputText value="#{matricula2.padreDeFamilia.apeMat}" />
+                                            </p:column>
+                                            <p:column headerText="Primer Nombre">
+                                                <h:outputText value="#{matricula2.padreDeFamilia.nombre1}" />
+                                            </p:column>
+                                            <p:column headerText="Segundo Nombre">
+                                                <h:outputText value="#{matricula2.padreDeFamilia.nombre2}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                        <br/><br/>
+                                        <br/><br/>
+                                    </p:panel>
+                                  </p:panel>
+                                
+                                <p:panel
+                                        rendered="#{modificarmatricula.mostrado[2]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <br/><br/>
+                                        <p:outputLabel rendered="true" value="Seguro que desea modificar el registro?"/>
+                                        <br/><br/>
+                                        <p:commandButton value="Sí Grabar" 
+                                        action="#{modificarmatricula.continua}" type="submit"
+                                        update="@form"/>
+                                        <p:commandButton value="No Grabar" 
+                                        action="#{modificarmatricula.continua2}" type="submit"
+                                        update="@form"/>
+                                    </p:panel>
+                                
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{modificarmatricula.retrocede}"
+                                        disabled="#{modificarmatricula.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{modificarmatricula.botonContinuar}" 
+                                        action="#{modificarmatricula.continua}"
+                                        disabled="#{modificarmatricula.grabarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                            <p:dialog header="Seleccione" widgetVar="noseleccionado" modal="true" height="100">
+                                <h:outputText value="Seleccione alumno para continuar" />
+                            </p:dialog>   
+                            <p:dialog header="Ingrese dígitos" widgetVar="noingresado" modal="true" height="100">
+                                <h:outputText value="Ingrese al menos una palabra" />
+                            </p:dialog>  
+                            <p:dialog header="Aula llena" widgetVar="aula_llena" modal="true" height="100">
+                                <h:outputText value="El aula que ha seleccionado está llena. Intente con otra." />
+                            </p:dialog> 
+                            <p:dialog header="Padre inactivo" widgetVar="padre_inactivo" modal="true" height="100">
+                                <h:outputText value="El padre seleccionado figura como Eliminado." />
+                            </p:dialog> 
+                            <p:dialog header="Ya eliminado" widgetVar="ya_eliminado" modal="true" height="100">
+                                <h:outputText value="El alumno seleccionado no cuenta con matrícula vigente." />
+                            </p:dialog> 
+                            <p:dialog header="Ingrese numeros" widgetVar="no_numero" modal="true" height="100">
+                                <h:outputText value="El Doc de identidad y Telefonos deben ser numericos." />
+                            </p:dialog>
+                            <p:dialog header="Error" widgetVar="fecha_razonable" modal="true" height="100">
+                                <h:outputText value="Ingrese una fecha anterior." />
+                            </p:dialog>
+                            <p:dialog header="Error" widgetVar="campos_vacios" modal="true" height="100">
+                                <h:outputText value="Complete TODOS los campos" />
+                            </p:dialog>
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

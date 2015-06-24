@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2015 11:04:58 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+  <class catalog="bd_colegio8" name="entidades.Estandarespago" table="estandarespago">
+    <id name="codEstandares" type="java.lang.Integer">
+      <column name="codEstandares"/>
+      <generator class="identity"/>
+    </id>
+    <property name="conceptoPago" type="string">
+      <column length="45" name="conceptoPago" not-null="true"/>
+    </property>
+    <property name="montoPago" type="int">
+      <column name="montoPago" not-null="true"/>
+    </property>
+    <property name="tipoPago" type="java.lang.Integer">
+      <column name="tipoPago"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="detallepagos" table="detallepago">
+      <key>
+        <column name="EstandaresPago_codEstandares" not-null="true"/>
+      </key>
+      <one-to-many class="entidades.Detallepago"/>
+    </set>
+  </class>
+</hibernate-mapping>

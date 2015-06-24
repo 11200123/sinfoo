@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestión de Pago de Matrícula</title>
+        </h:head>
+        <h:body>
+            
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{tesorerobean.volverMenu}"/>
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{tesorerobean.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{tesorerobean.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{tesorerobean.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestión de Pago de Matrícula">
+                    <p:accordionPanel
+                        activeIndex="0,1,2">
+                        <p:tab title="Registar monto de matrícula" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel id="panel0"
+                                             rendered="#{tesoreroGestPagoMat.mostrado[0]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel value="Ya existe registrado un concepto de pago relacionado a matrícula."
+                                                           rendered="#{tesoreroGestPagoMat.yaRegistrado}"/>
+                                            <p:outputLabel value="Ingrese el concepto de pago"
+                                                           rendered="#{tesoreroGestPagoMat.recienRegistrar}"/>
+                                            <p:inputText id="conceptoPago" value="#{tesoreroGestPagoMat.concepto}"
+                                                         rendered="#{tesoreroGestPagoMat.recienRegistrar}"/>
+                                            <p:outputLabel value="Ingrese el monto de la matrícula   S/."
+                                                           rendered="#{tesoreroGestPagoMat.recienRegistrar}"/>
+                                            <p:inputText id="montoMatricula" value="#{tesoreroGestPagoMat.monto}"
+                                                         rendered="#{tesoreroGestPagoMat.recienRegistrar}"/>
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    
+                                    <p:panel id="panel1"
+                                             rendered="#{tesoreroGestPagoMat.mostrado[1]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Debe confirmar el registro:"/>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:commandButton 
+                                                value="Confirmar" 
+                                                action="#{tesoreroGestPagoMat.continuar2}"
+                                                
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            <p:commandButton 
+                                                value="Cancelar" 
+                                                action="#{tesoreroGestPagoMat.volverMenu}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    <p:panel id="panel2"
+                                             rendered="#{tesoreroGestPagoMat.mostrado[2]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="1" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Felicidades"/>
+                                            <p:outputLabel value="El registro se realizó de manera exitosa!!!"/>
+                                            
+                                            
+                                            <p:commandButton 
+                                                value="Finalizar" 
+                                                action="#{tesoreroGestPagoMat.continuar()}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                </p:scrollPanel>
+                                
+                                <h:panelGrid columns="3" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{tesoreroGestPagoMat.retrocede}"
+                                        disabled="#{tesoreroGestPagoMat.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{tesoreroGestPagoMat.botonContinuar}"
+                                        action="#{tesoreroGestPagoMat.continuar}"
+                                        disabled="#{tesoreroGestPagoMat.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />  
+                                </h:panelGrid>
+                                
+                                
+                                <p:dialog header="Complete campos" widgetVar="noingresado" modal="true" height="100">
+                                    <h:outputText value="Complete todos los campos correctamente." />
+                                </p:dialog>
+                                <p:dialog header="Ya registrado" widgetVar="ya_existe" modal="true" height="100">
+                                    <h:outputText value="El concepto ingresado pertenece a otro." />
+                                </p:dialog>
+                                
+                            </h:form>
+                           
+                        </p:tab>
+                        
+                        
+                        
+                        
+                        <p:tab title="Modificar monto de matrícula">
+                            <h:form>
+                               <p:scrollPanel
+                                    style="height:200px">
+                                    <p:panel id="panel0"
+                                             rendered="#{modificarPagoMatricula.mostrado[0]}" 
+                                       closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Ingrese el concepto de pago"/>
+                                            <p:inputText id="conceptoPagoUpd" value="#{modificarPagoMatricula.concepto}"/>
+                                            
+                                            <p:outputLabel value="Modifique el monto de la matrícula   S/."/>
+                                            <p:inputText id="montoMatriculaUpd" value="#{modificarPagoMatricula.monto}"/>
+                                                
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    
+                                
+                                <p:panel id="panel1"
+                                             rendered="#{modificarPagoMatricula.mostrado[1]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Debe confirmar la actualización:"/>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:commandButton 
+                                                value="Confirmar" 
+                                                action="#{modificarPagoMatricula.continuar2}"
+                                                
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            <p:commandButton 
+                                                value="Cancelar" 
+                                                action="#{modificarPagoMatricula.volverMenu}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    <p:panel id="panel2"
+                                             rendered="#{modificarPagoMatricula.mostrado[2]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="1" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Felicidades"/>
+                                            <p:outputLabel value="La actualización se realizó de manera exitosa!!!"/>
+                                            
+                                            
+                                            <p:commandButton 
+                                                value="Finalizar" 
+                                                action="#{modificarPagoMatricula.continuar}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                </p:scrollPanel>
+                                
+                                <h:panelGrid columns="3" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{modificarPagoMatricula.retrocede}"
+                                        disabled="#{modificarPagoMatricula.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{modificarPagoMatricula.botonContinuar}"
+                                        action="#{modificarPagoMatricula.continuar}"
+                                        disabled="#{modificarPagoMatricula.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />  
+                                </h:panelGrid>
+                                
+                                
+                                <p:dialog header="Complete campos" widgetVar="noingresado" modal="true" height="100">
+                                    <h:outputText value="Complete todos los campos correctamente." />
+                                </p:dialog>
+                                <p:dialog header="Ya existe" widgetVar="ya_existe" modal="true" height="100">
+                                    <h:outputText value="El concepto ingresado pertenece a otro." />
+                                </p:dialog>
+                                <p:dialog header="No hay registros" widgetVar="no_registros" modal="true" height="100">
+                                    <h:outputText value="No existen registros del Concepto de Matrícula. Registre el concepto." />
+                                </p:dialog>
+                                
+                            </h:form>
+                            
+                        </p:tab>
+                        
+                    </p:accordionPanel>
+                    
+
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

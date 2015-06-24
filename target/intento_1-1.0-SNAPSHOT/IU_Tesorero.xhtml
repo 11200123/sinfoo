@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Registro de matrícula</title>
+        </h:head>
+        <h:body >
+            <p:layoutUnit  position="north" size="50" style="text-align: center; ">
+                
+                <p:outputLabel
+                    rendered="true"
+                    value="I . E . P . Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px; background-image: url('./src/fondo.png');"
+                />
+                
+            </p:layoutUnit>    
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    
+                    <p:menuitem value="Tesorero"  icon="ui-icon-carat-1-e" />
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{tesorerobean.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{tesorerobean.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{tesorerobean.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+                 <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <br></br>
+                <p:panelGrid columns="4" style="margin: 0 auto;" >
+                            <f:facet name="header">
+                            Menú
+                            </f:facet>
+                            <img src="./src/pago.png" />
+                              <p:commandButton value="Gestionar Pago de Matrícula" action="#{tesorerobean.irGestionarPagoMatricula}" >
+                                            </p:commandButton>               
+                            <img src="./src/pago.png" />
+                              <p:commandButton value="Gestionar Pago de Pensiones" action="#{tesorerobean.irGestPagoPension}" >
+                                            </p:commandButton>    
+                            <img src="./src/cronograma.png" />
+                              <p:commandButton value="Mostrar Cronograma de Pagos" action="#{tesorerobean.irMostrarCronograma}" >
+                                            </p:commandButton>    
+                            <img src="./src/cargar_tx.png" />
+                              <p:commandButton value="Cargar Transacciones" action="#{tesorerobean.irCargarTransacciones}" >
+                                            </p:commandButton>    
+                                                        
+                        </p:panelGrid>
+                <p:panelGrid columns="2" style="margin: 0 auto;" >
+                    <img src="./src/reporte.png" />
+                              <p:commandButton value="Generar Reporte de Pagos" action="#{tesorerobean.irGenerarReportePagos}" >
+                              </p:commandButton>    
+                </p:panelGrid>    
+            </h:form>
+            
+            
+        </h:body >
+    </f:view>
+</html>
+

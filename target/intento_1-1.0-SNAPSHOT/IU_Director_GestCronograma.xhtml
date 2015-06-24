@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestión de Cronogramas</title>
+        </h:head>
+        <h:body>
+            
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    
+                    <p:menuitem value="Gestionar Cronograma"  icon="ui-icon-carat-1-e" />
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{registrarmatricula.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{registrarmatricula.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{registrarmatricula.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestión de Cronograma">
+                    <p:accordionPanel
+                        activeIndex="0,1,2">
+                        <p:tab title="Registro de cronograma" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                       closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="3" cellpadding="20">
+                                            
+                                            <p:outputLabel value="Mes" ></p:outputLabel>
+                                            <p:outputLabel value="Inicio" ></p:outputLabel>
+                                            <p:outputLabel value="Fin" ></p:outputLabel>
+                                            
+                                            <p:outputLabel value="Marzo" ></p:outputLabel>
+                                            <p:calendar id="fec_iniMar"  showOn="button" />
+                                            <p:calendar id="fec_finMar"  showOn="button" />
+                                            <p:outputLabel value="Abril" ></p:outputLabel>
+                                            <p:calendar id="fec_iniAbr"  showOn="button" />
+                                            <p:calendar id="fec_finAbr"  showOn="button" />
+                                            <p:outputLabel value="Mayo" ></p:outputLabel>
+                                            <p:calendar id="fec_iniMay"  showOn="button" />
+                                            <p:calendar id="fec_finMay"  showOn="button" />
+                                            <p:outputLabel value="Junio" ></p:outputLabel>
+                                            <p:calendar id="fec_iniJun"  showOn="button" />
+                                            <p:calendar id="fec_finJun"  showOn="button" />
+                                            <p:outputLabel value="Julio" ></p:outputLabel>
+                                            <p:calendar id="fec_iniJul"  showOn="button" />
+                                            <p:calendar id="fec_finJul"  showOn="button" />
+                                            <p:outputLabel value="Agosto" ></p:outputLabel>
+                                            <p:calendar id="fec_iniAgo"  showOn="button" />
+                                            <p:calendar id="fec_finAgo"  showOn="button" />
+                                            <p:outputLabel value="Setiembre" ></p:outputLabel>
+                                            <p:calendar id="fec_iniSet"  showOn="button" />
+                                            <p:calendar id="fec_finSet"  showOn="button" />
+                                            <p:outputLabel value="Octubre" ></p:outputLabel>
+                                            <p:calendar id="fec_iniOct"  showOn="button" />
+                                            <p:calendar id="fec_finOct"  showOn="button" />
+                                            <p:outputLabel value="Noviembre" ></p:outputLabel>
+                                            <p:calendar id="fec_iniNov"  showOn="button" />
+                                            <p:calendar id="fec_finNov"  showOn="button" />
+                                            <p:outputLabel value="Diciembre" ></p:outputLabel>
+                                            <p:calendar id="fec_iniDic"  showOn="button" />
+                                            <p:calendar id="fec_finDic"  showOn="button" />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    
+                                </p:scrollPanel>
+                                
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{tesorerobean.volverMenu}"
+                                        />
+                                    <p:commandButton  
+                                        value="Guardar" 
+                                        action="#"
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                           
+                        </p:tab>
+                        <p:tab title="Modificación de cronograma">
+                            <h:form>
+                               <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                       closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="3" cellpadding="20">
+                                            
+                                            <p:outputLabel value="Mes" ></p:outputLabel>
+                                            <p:outputLabel value="Inicio" ></p:outputLabel>
+                                            <p:outputLabel value="Fin" ></p:outputLabel>
+                                            <p:selectOneMenu id="meses" value="Abril" >
+                                                
+                                                <f:selectItem itemLabel="Marzo" itemValue="Marzo"/>
+                                                <f:selectItem itemLabel="Abril" itemValue="Abril"/>
+                                                <f:selectItem itemLabel="Mayo" itemValue="Mayo"/>
+                                                <f:selectItem itemLabel="Junio" itemValue="Junio"/>
+                                                <f:selectItem itemLabel="Julio" itemValue="Julio"/>
+                                                <f:selectItem itemLabel="Agosto" itemValue="Agosto"/>
+                                                <f:selectItem itemLabel="Setiembre" itemValue="Setiembre"/>
+                                                <f:selectItem itemLabel="Octubre" itemValue="Octubre"/>
+                                                <f:selectItem itemLabel="Noviembre" itemValue="Noviembre"/>
+                                                <f:selectItem itemLabel="Diciembre" itemValue="Diciembre"/>
+                                                
+                                            </p:selectOneMenu>
+                                            <p:inputText  id="fec_ini" value="01-04-2011" /> 
+                                            <p:inputText  id="fec_fin" value="06-04-2011" /> 
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{tesorerobean.volverMenu}"
+                                        />
+                                    <p:commandButton  
+                                        value="Grabar" 
+                                        action="#"
+                                        />
+                                </h:panelGrid>
+                            </h:form>
+                            
+                        </p:tab>
+                        
+                    </p:accordionPanel>
+                    
+
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

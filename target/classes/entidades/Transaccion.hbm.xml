@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2015 11:04:58 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+  <class catalog="bd_colegio8" name="entidades.Transaccion" table="transaccion">
+    <id name="nroTransaccion" type="java.lang.Integer">
+      <column name="nroTransaccion"/>
+      <generator class="identity"/>
+    </id>
+    <property name="fechaTransaccion" type="date">
+      <column length="10" name="fechaTransaccion" not-null="true"/>
+    </property>
+    <property name="montoTransaccion" type="int">
+      <column name="montoTransaccion" not-null="true"/>
+    </property>
+    <property name="estadoTransaccion" type="int">
+      <column name="estadoTransaccion" not-null="true"/>
+    </property>
+    <property name="conceptoTransacion" type="string">
+      <column length="20" name="conceptoTransacion" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="detallepagos" table="detallepago">
+      <key>
+        <column name="Transaccion_nroTransaccion"/>
+      </key>
+      <one-to-many class="entidades.Detallepago"/>
+    </set>
+  </class>
+</hibernate-mapping>

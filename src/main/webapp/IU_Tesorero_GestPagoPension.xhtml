@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestión de Pago de Pensión</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+                <p:menubar>
+                    <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{tesorerobean.volverMenu}"/>
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{tesorerobean.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{tesorerobean.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{tesorerobean.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestión de Pago de Pensión">
+                    <p:accordionPanel
+                        activeIndex="0,1,2" multiple="true">
+                        <p:tab title="Registrar pago de pensión">
+                            <h:form>
+                               <p:scrollPanel
+                                    style="height:400px">
+                                    <p:panel id="panel0"
+                                             rendered="#{tesoreroGestPagoPen.mostrado[0]}"  
+                                             closable="true"
+                                             toggleable="true"
+                                             style="border: transparent;">
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel value="Ya se encuentran registrados los conceptos de pensión de primaria y secundaria." 
+                                                           rendered="#{tesoreroGestPagoPen.yaRegistrado}"/>
+                                            <p:outputLabel value="Primaria" style="font-size: x-large"
+                                                           rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <h:panelGroup></h:panelGroup> 
+                                            <p:outputLabel value="Ingrese el concepto de pago"
+                                                           rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:inputText id="concepPagoPrimaria" value="#{tesoreroGestPagoPen.conceptoPrimaria}"
+                                                            rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:outputLabel value="Ingrese el monto de pensión S/."
+                                                           rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:inputText id="penPrimaria" value="#{tesoreroGestPagoPen.montoPrimaria}"
+                                                         rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:outputLabel value="Secundaria" style="font-size: x-large"
+                                                           rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <h:panelGroup></h:panelGroup> 
+                                            <p:outputLabel value="Ingrese el concepto de pago"
+                                                           rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:inputText id="concepPagoSecundaria" value="#{tesoreroGestPagoPen.conceptoSecundaria}"
+                                                         rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:outputLabel value="Ingrese el monto de pensión S/."
+                                                           rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                            <p:inputText id="penSecundaria" value="#{tesoreroGestPagoPen.montoSecundaria}"
+                                                         rendered="#{tesoreroGestPagoPen.noRegistrado}"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                   <p:panel id="panel1"
+                                             rendered="#{tesoreroGestPagoPen.mostrado[1]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel value="Debe confirmar el registro:"/>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:commandButton 
+                                                value="Confirmar" 
+                                                action="#{tesoreroGestPagoPen.continuar}"
+                                                
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            <p:commandButton 
+                                                value="Cancelar" 
+                                                action="#{tesoreroGestPagoPen.volverMenu}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    <p:panel id="panel2"
+                                             rendered="#{tesoreroGestPagoPen.mostrado[2]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="1" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Felicidades"/>
+                                            <p:outputLabel value="El registro se realizó de manera exitosa!!!"/>
+                                        <p:commandButton 
+                                                value="Finalizar" 
+                                                action="#{tesoreroGestPagoPen.continuar}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </p:scrollPanel>
+                                <h:panelGrid columns="3" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{tesoreroGestPagoPen.retroceder}"
+                                        disabled="#{tesoreroGestPagoPen.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="Guardar"
+                                        action="#{tesoreroGestPagoPen.continuar}"
+                                        disabled="#{tesoreroGestPagoPen.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />  
+                                </h:panelGrid>
+                            </h:form>
+                        </p:tab>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        <p:tab title="Modificar pago de pensión">
+                            <h:form>
+                               <p:scrollPanel
+                                    style="height:400px">
+                                    <p:panel id="panel0"
+                                       rendered="#{modificarpension.mostrado[0]}"      
+                                       closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Primaria" style="font-size: x-large"/>
+                                            <h:panelGroup></h:panelGroup> 
+                                            <p:outputLabel value="Ingrese el concepto de pago"/>
+                                            <p:inputText value="#{modificarpension.conceptoPrimaria}"/>
+                                            <p:outputLabel value="Ingrese el monto de pensión S/."/>
+                                            <p:inputText value="#{modificarpension.montoPrimaria}"/>
+                                            <p:outputLabel value="Secundaria" style="font-size: x-large"/>
+                                            <h:panelGroup></h:panelGroup> 
+                                            <p:outputLabel value="Ingrese el concepto de pago"/>
+                                            <p:inputText value="#{modificarpension.conceptoSecundaria}"/>
+                                            <p:outputLabel value="Ingrese el monto de pensión S/."/>
+                                            <p:inputText value="#{modificarpension.montoSecundaria}"/>
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    <p:panel id="panel1"
+                                             rendered="#{modificarpension.mostrado[1]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Debe confirmar el registro:"/>
+                                            <h:panelGroup></h:panelGroup>
+                                            <p:commandButton 
+                                                value="Confirmar" 
+                                                action="#{modificarpension.continuar}"
+                                                
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            <p:commandButton 
+                                                value="Cancelar" 
+                                                action="#{modificarpension.retroceder}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                    <p:panel id="panel2"
+                                             rendered="#{modificarpension.mostrado[2]}"     
+                                            closable="true"
+                                            toggleable="true"
+                                            style="border: transparent;">
+                                        
+                                        <h:panelGrid columns="1" cellpadding="10">
+                                            
+                                            <p:outputLabel value="Felicidades"/>
+                                            <p:outputLabel value="El registro se realizó de manera exitosa!!!"/>
+                                            
+                                            
+                                            <p:commandButton 
+                                                value="Finalizar" 
+                                                action="#{modificarpension.volverMenu}"
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+
+                                    </p:panel>
+                                </p:scrollPanel>
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{modificarpension.retroceder}"
+                                        disabled="#{modificarpension.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="Guardar"
+                                        action="#{modificarpension.continuar}"
+                                        disabled="#{modificarpension.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />  
+                                </h:panelGrid>
+                                
+                                
+                                
+                                <p:dialog header="Complete campos" widgetVar="noingresado" modal="true" height="100">
+                                    <h:outputText value="Ingrese correctamente todos los campos." />
+                                </p:dialog>
+                                <p:dialog header="Ya existe" widgetVar="relac_primaria" modal="true" height="100">
+                                    <h:outputText value="El concepto de primaria ya ha sido registrado previamente." />
+                                </p:dialog>
+                                <p:dialog header="Ya existe" widgetVar="relac_secundaria" modal="true" height="100">
+                                    <h:outputText value="El concepto de secundaria ya ha sido registrado previamente." />
+                                </p:dialog>
+                                <p:dialog header="Error" widgetVar="montos_iguales" modal="true" height="100">
+                                    <h:outputText value="Los conceptos deben ser diferentes." />
+                                </p:dialog>
+                                <p:dialog header="No hay registros" widgetVar="no_existe" modal="true" height="100">
+                                    <h:outputText value="No existen registros previos." />
+                                </p:dialog>
+                                <p:dialog header="Pertenece a otro" widgetVar="de_otro" modal="true" height="100">
+                                    <h:outputText value="Un concepto ingresado pertenece a matrícula." />
+                                </p:dialog>
+                                
+                            </h:form>
+                            
+                        </p:tab>
+                        
+                        
+                        
+                    </p:accordionPanel>
+                    
+
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

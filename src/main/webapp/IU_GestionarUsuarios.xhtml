@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestionar Usuarios</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+
+                <p:menubar>
+                    
+                    <p:menuitem value="Gestionar Usuarios"  icon="ui-icon-carat-1-e" />
+
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{registrarusuario.nombreUser}  "/>
+                        <p:outputLabel rendered="true" value="Rol: #{registrarusuario.rol}  "/>
+                        <p:commandButton  value="Salir" action="#{registrarusuario.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+            <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestion de Usuarios">
+                    <p:accordionPanel
+                        activeIndex="0,1,2" multiple="true">
+                         <p:tab title="Registrar Usuario" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        id="panel0"
+                                        rendered="#{registrarusuario.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:outputLabel 
+                                            rendered="true"
+                                            value="Ingrese datos del usuario"/>
+                                        <br/>
+                                        <h:panelGrid columns="2" cellpadding="12">
+                                            <p:outputLabel for="pais" value="Rol: "/>
+                                            <p:selectOneMenu id="pais" value="#{registrarusuario.role}">
+                                                <f:selectItem itemLabel="Tesorero" itemValue="tesorera" />
+                                                <f:selectItem itemLabel="Secretaria" itemValue="secretaria" />
+                                                <f:selectItem itemLabel="Director" itemValue="director" />
+                                                <f:selectItem itemLabel="Administrador" itemValue="administrador" />
+                                                
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="username" value="Usuario: "/>
+                                            <p:inputText  id="username" value="#{registrarusuario.cadenaID}"/>
+                                            <p:outputLabel for="pass" value="Password: "/>
+                                            <p:password id="pass" value="#{registrarusuario.pass1}"  label="Password 1" required="true" />
+                                            <p:outputLabel for="pass2" value="Repita password: "/>
+                                           <p:password id="pass2" value="#{registrarusuario.comprobarPass}" label="Password 2" required="true" />
+                                            <p:outputLabel for="emailapo" value="Email: "/>
+                                            <p:inputText  id="emailapo" value="#{registrarusuario.email}" />
+                                        </h:panelGrid>
+                                    </p:panel>
+                            </p:scrollPanel>          
+                            <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="#{registrarusuario.botonContinuar}" 
+                                        action="#{registrarusuario.continua}"
+                                        disabled="#{registrarusuario.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                </h:panelGrid>
+                             </h:form>           
+                            <p:dialog header="Exito" widgetVar="guardado" modal="true" height="100">
+                                <h:outputText value="Usuario registrado con éxito." />
+                            </p:dialog> 
+                            <p:dialog header="Ya registrado" widgetVar="ya_existe" modal="true" height="100">
+                                <h:outputText value="El ID del usuario ingresado ya ha sido registrado. Intente con otro." />
+                            </p:dialog> 
+                            <p:dialog header="Error" widgetVar="noguardado" modal="true" height="100">
+                                <h:outputText value="No se puede registrar, verifique que se escribio bien el password" />
+                            </p:dialog>
+                            <p:dialog header="Complete" widgetVar="complete_campos" modal="true" height="100">
+                                <h:outputText value="Ingrese todos los campos." />
+                            </p:dialog> 
+                            <p:dialog header="Complete" widgetVar="no_iguales" modal="true" height="100">
+                                <h:outputText value="Las contraseñas deben ser iguales." />
+                            </p:dialog> 
+                             
+                             
+                             
+                            <h:panelGrid columns="2" cellpadding="10">
+                                <p:confirmDialog global="true" showEffect="fade" hideEffect="explode">
+                                    <p:commandButton value="Aceptar" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                    <p:commandButton value="Cancelar" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                </p:confirmDialog>
+                            </h:panelGrid>
+                        </p:tab>
+                        
+                        <p:tab title="Modificar Usuario" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        id="panel10"
+                                        rendered="#{modificarusuario.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:outputLabel rendered="true" value="Buscar usuario:"/>
+                                        <h:panelGrid columns="3" cellpadding="10">
+                                            <p:outputLabel rendered="true" value="Ingrese nombre o parte del nombre"/>
+                                            <p:inputText id="busquedaAlumno" value="#{modificarusuario.nombreBuscado}"/>
+                                            <p:commandButton value="Buscar" action="#{modificarusuario.buscarUsuario}" update="tablaMatriculados" />
+                                        </h:panelGrid>
+                                        
+                                        <p:dataTable
+                                            id="tablaMatriculados"
+                                            var="usu"
+                                            value="#{modificarusuario.listaUsuarios}"
+                                            selection="#{modificarusuario.usuarioSeleccionado}"
+                                            selectionMode="single"
+                                            rowKey="#{usu.idUsuario}">
+                                            
+                                            
+                                            <p:column headerText="Username">
+                                                <h:outputText value="#{usu.idUsuario}" />
+                                            </p:column>
+                                            <p:column headerText="Rol" >
+                                            <h:outputText value="#{usu.rol}" />
+                                            </p:column>
+                                            <p:column headerText="E-mail">
+                                                <h:outputText value="#{usu.email}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                        </p:panel>
+                                    <p:panel
+                                        id="panel11"
+                                        rendered="#{modificarusuario.mostrado[1]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        
+                                        <p:outputLabel rendered="true" value="Información de usuario:"/>
+                                        
+                                        <br/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                           
+                                            
+                                            <p:outputLabel for="rolses" value="Rol: "/>
+                                            <p:selectOneMenu id="rolses" value="#{modificarusuario.usuarioSeleccionado.rol}">
+                                                <f:selectItem itemLabel="Tesorera" itemValue="tesorera" />
+                                                <f:selectItem itemLabel="Secretaria" itemValue="secretaria" />
+                                                <f:selectItem itemLabel="Director" itemValue="director" />
+                                                <f:selectItem itemLabel="Administrador" itemValue="administrador" />
+                                                <f:selectItem itemLabel="Padre de Familia" itemValue="padre_de_familia" />
+                                            </p:selectOneMenu>
+                                            <p:outputLabel for="usernamees" value="Usuario: "/>
+                                            <p:outputLabel  id="usernamees" value="#{modificarusuario.usuarioSeleccionado.idUsuario}" />
+                                            <p:outputLabel for="pass1" value="Password: "/>
+                                            
+                                            <p:password id="pass1" value="#{modificarusuario.pass1}"  match="pass21" label="Password 1" required="true" />
+                                            <p:outputLabel for="pass21" value="Repita password: "/>
+                                            
+                                             <p:password id="pass21" value="#{modificarusuario.pass2}" label="Password 2" required="true" />
+                                            
+                                            <p:outputLabel for="emailapoes" value="Email: "/>
+                                            <h:inputText  id="emailapoes" value="#{modificarusuario.usuarioSeleccionado.email}" />
+                                        </h:panelGrid>
+                            
+                                    </p:panel>
+         
+                                </p:scrollPanel>          
+                            <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{modificarusuario.retrocede}"
+                                        disabled="#{modificarusuario.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{modificarusuario.botonContinuar}" 
+                                        action="#{modificarusuario.continua}"
+                                        disabled="#{modificarusuario.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                            </h:panelGrid>
+                            <p:dialog header="Seleccione" widgetVar="no_seleccionado" modal="true" height="100">
+                                <h:outputText value="Seleccione un usuario por favor." />
+                            </p:dialog>
+                                
+                            <p:dialog header="Éxito" widgetVar="modificado" modal="true" height="100">
+                                <h:outputText value="Se ha modificado con éxito." />
+                            </p:dialog>
+                            </h:form>  
+                        </p:tab>
+                        <p:tab title="Eliminar Usuario" >
+                            <h:form>
+                                <p:scrollPanel
+                                    style="height:330px">
+                                    <p:panel
+                                        id="panel20"
+                                        rendered="#{eliminarusuario.mostrado[0]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:outputLabel rendered="true" value="Buscar usuario:"/>
+                                        <h:panelGrid columns="3" cellpadding="10">
+                                            <p:outputLabel rendered="true" value="Ingrese idUsuario o rol "/>
+                                            <p:inputText id="busquedaAlumno" value="#{eliminarusuario.nombreBuscado}"/>
+                                            <p:commandButton value="Buscar" action="#{eliminarusuario.buscarUsuario}" update="tablaMatriculados" />
+                                        </h:panelGrid>
+                                        
+                                        <p:dataTable
+                                            id="tablaMatriculados"
+                                            var="usu"
+                                            value="#{eliminarusuario.listaUsuarios}"
+                                            selection="#{eliminarusuario.usuarioSeleccionado}"
+                                            selectionMode="single"
+                                            rowKey="#{usu.idUsuario}">
+                                            <p:column headerText="Username">
+                                                <h:outputText value="#{usu.idUsuario}" />
+                                            </p:column>
+                                            <p:column headerText="Rol">
+                                                <h:outputText value="#{usu.rol}" />
+                                            </p:column>
+                                            <p:column headerText="E-mail">
+                                                <h:outputText value="#{usu.email}" />
+                                            </p:column>
+                                        </p:dataTable>
+                                        </p:panel>
+                                    <p:panel
+                                        id="panel21"
+                                        rendered="#{eliminarusuario.mostrado[1]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:outputLabel rendered="true" value="Información de usuario:"/>
+                                        <br/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel for="rolas" value="Rol: "/>
+                                            <p:outputLabel id="rolas" value="#{eliminarusuario.usuarioSeleccionado.rol}" />
+                                            <p:outputLabel for="usernamee" value="Usuario: "/>
+                                            <p:outputLabel  id="usernamee" value="#{eliminarusuario.usuarioSeleccionado.idUsuario}"  />
+                                            <p:outputLabel for="emailapoe" value="Email: "/>
+                                            <p:outputLabel  id="emailapoe" value="#{eliminarusuario.usuarioSeleccionado.email}" />
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    
+                                    <p:panel
+                                        id="panel213"
+                                        rendered="#{eliminarusuario.mostrado[2]}"
+                                        closable="true"
+                                        toggleable="true"
+                                        style="border: transparent;">
+                                        <p:outputLabel rendered="true" value="Información de usuario:"/>
+                                        <br/>
+                                        <h:panelGrid columns="2" cellpadding="10">
+                                            <p:outputLabel value="Está seguro que desea eliminar el registro?"/>
+                                            
+                                            
+                                            <p:commandButton value="Aceptar"  action="#{eliminarusuario.eliminarUsuario}"                                        
+                                                type="submit"
+                                                update="@form"
+                                            />
+                                            
+                                        </h:panelGrid>
+                                    </p:panel>
+                                    
+                                </p:scrollPanel>          
+                            <h:panelGrid columns="2" cellpadding="10">
+                                    <p:commandButton  
+                                        value="Volver" 
+                                        action="#{eliminarusuario.retrocede}"
+                                        disabled="#{eliminarusuario.volverDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                                    <p:commandButton  
+                                        value="#{eliminarusuario.botonContinuar}" 
+                                        action="#{eliminarusuario.continua}"
+                                        disabled="#{eliminarusuario.continuarDesactivado}"
+                                        type="submit"
+                                        update="@form"
+                                        />
+                            </h:panelGrid>
+                            <p:dialog header="Seleccione" widgetVar="no_seleccionado" modal="true" height="100">
+                                <h:outputText value="Seleccione un usuario por favor." />
+                            </p:dialog>
+                            <p:dialog header="Éxito" widgetVar="eliminado" modal="true" height="100">
+                                <h:outputText value="Se ha eliminado con éxito." />
+                            </p:dialog>
+                            <p:dialog header="No permitido" widgetVar="padre" modal="true" height="100">
+                                <h:outputText value="No cuenta con permisos para eliminar información de Padre de Familia." />
+                            </p:dialog>
+                            </h:form>  
+                        </p:tab>
+                    </p:accordionPanel>
+                </p:tab>
+            </p:tabView>
+        </h:body >
+    </f:view>
+</html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view contentType="text/html">
+        <h:head>
+            <title>Gestionar Padre de familia</title>
+        </h:head>
+        <h:body>
+            <p:layoutUnit position="north" size="150" style="text-align: center;">
+                <p:outputLabel
+                    rendered="true"
+                    value="I.E.P. Juan Pablo Peregrino" 
+                    style="font-family: Comic Sans MS;font-size: 50px;background-image: url('./src/fondo.png');"/>
+                <p:outputLabel/>
+            </p:layoutUnit>
+            <h:form>  
+                <p:growl id="messages"/>
+                <p:menubar>
+                   <p:menuitem value="Regresar al Menú"  icon="ui-icon-carat-1-e" action="#{gestionarpadre.volverMenu}"/>
+                    <f:facet name="options">
+                        <p:outputLabel rendered="true" value="Bienvenido: #{gestionarpadre.nombreUser}"/>
+                        <p:outputLabel rendered="true" value="Rol: #{gestionarpadre.rol}"/>
+                        <p:commandButton  value="Salir"  action="#{gestionarpadre.salir}" icon="ui-icon-extlink" />
+                    </f:facet>
+                </p:menubar>
+            </h:form>
+           <p:tabView 
+                orientation="left"
+                style="border: transparent;">
+                <p:tab title="Gestion de Padres de familia">
+                    <h:panelGrid columns="6"  >
+                            <f:facet name="header">
+                            </f:facet>
+                            <img src="./src/registrarPadre.png" />
+                              <p:commandButton value="Registrar padre de familia" action="#{gestionarpadre.registrarPadre}" >
+                                            </p:commandButton>               
+                            <img src="./src/actualizar.png" />
+                            <p:commandButton value="Modificar padre de familia" action="#{gestionarpadre.modificarPadre}" >
+                                            </p:commandButton>    
+                            <img src="./src/retiro.png" />
+                            <p:commandButton value="Eliminar padre de familia" action="#{gestionarpadre.eliminarPadre}" >
+                                            </p:commandButton>    
+                    </h:panelGrid>
+                </p:tab>
+            </p:tabView>
+           
+        </h:body >
+    </f:view>
+</html>

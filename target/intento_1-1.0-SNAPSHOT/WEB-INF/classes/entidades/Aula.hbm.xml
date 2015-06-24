@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 24/06/2015 11:04:58 AM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+  <class catalog="bd_colegio8" name="entidades.Aula" table="aula">
+    <id name="codAula" type="java.lang.Integer">
+      <column name="codAula"/>
+      <generator class="identity"/>
+    </id>
+    <property name="seccion" type="int">
+      <column name="seccion" not-null="true"/>
+    </property>
+    <property name="numGrad" type="int">
+      <column name="numGrad" not-null="true"/>
+    </property>
+    <property name="nivel" type="int">
+      <column name="nivel" not-null="true"/>
+    </property>
+    <property name="cantidadAlumnos" type="int">
+      <column name="cantidadAlumnos" not-null="true"/>
+    </property>
+    <property name="limiteAlumnos" type="int">
+      <column name="limiteAlumnos" not-null="true"/>
+    </property>
+    <set fetch="select" inverse="true" lazy="true" name="matriculas" table="matricula">
+      <key>
+        <column name="Aula_codAula" not-null="true"/>
+      </key>
+      <one-to-many class="entidades.Matricula"/>
+    </set>
+  </class>
+</hibernate-mapping>
