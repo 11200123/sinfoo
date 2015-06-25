@@ -1,0 +1,56 @@
+# README #
+
+Pasos para desplegar desde linux o instalar el cliente windows del rhc
+
+https://developers.openshift.com/en/getting-started-windows.html
+
+### Instalar Git ###
+
+Luego de instalar el git, llonar el repo
+
+* git clone https://github.com/11200123/sinfoo.git
+
+### Construir war con maven ###
+
+Ejecutar a la altura del pom.xml
+
+mvn clean install
+
+se generará el war en la carpeta **target/intento_1-1.0-SNAPSHOT.war**
+
+renombrar el war a ROOT.war
+
+
+### Ver mis apps ###
+
+Siguiendo los pasos del primer enlace, acceder a la cuenta de openshift mediante el cliente rhc
+
+https://developers.openshift.com/en/getting-started-windows.html#rhc-setup
+
+Luego, ejecutar para ver mis apps, me interesa **sinfojppjee7**
+
+* rhc apps
+
+Copiar mi war local al openshift
+
+* scp target/ROOT.war 558a70ab5973ca57a5000170@sinfojppjee7-tp2g5.rhcloud.com:app-root/data/
+
+Entrar al openshift mediante ssh
+
+* ssh 558a70ab5973ca57a5000170@sinfojppjee7-tp2g5.rhcloud.com
+
+Dentro del servidor desplegar el war en el tomcat
+
+* cp app-root/data/ROOT.war app-root/dependencies/jbossews/webapps/ROOT.war
+
+Finalmente reiniciar
+
+* ctl_all restart
+
+
+
+### NOTAS ###
+
+En el archivo hibernate.cfg.xml, se cambio la propeiedad, para la conexión al Mysql del openshift
+
+<property name="hibernate.connection.url">jdbc:mysql://127.10.160.130:3306/bd_colegio8?zeroDateTimeBehavior=convertToNull</property>
